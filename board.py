@@ -16,11 +16,12 @@ y = 6
 
 # Function to add car to board
 def addCar(name, length, direction, coordinate):
-	print length
+	#TODO
 	return car
 
 # Function to move car
 def moveCar(name, direction, amount):
+	#TODO
 	return
 
 # Create all coordinates for the board
@@ -40,8 +41,6 @@ for i in range(x):
 		string += ' '
 	string += '\n'
 print string
-
-car1 = addCar(1 ,2)
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
