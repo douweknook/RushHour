@@ -38,19 +38,20 @@ class Car(object):
 		return coordinates
 
 
-car1 = Car(1, 2, 'h', 0, 0)
 
 # Function to add car to board
 def addCar(name, length, direction, y, x):
-	board[(y, x)] = car.name
-	board[(y, x + 1)] = car1.name
-	
-
-	
+	car = Car(name, length, direction, y, x)
+	if direction is 'h':
+		board[(y, x)] = car.name
+		board[(y, x + 1)] = car.name
+	if direction is 'v':
+		board[(y, x)] = car.name
+		board[(y + 1, x)] = car.name	
 
 # Function to move car
 def moveCar(name, direction, amount):
-	#TODO
+	
 	return
 
 # Create all coordinates for the board
@@ -63,7 +64,8 @@ for row in range(x):
 board = OrderedDict(sorted(coordinates.items(), key=lambda x: x[0]))
 
 
-addCar(1, 0, 0)
+addCar(1, 2, 'h', 0, 2)
+addCar(2, 2, 'v', 2, 1)
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
@@ -73,6 +75,8 @@ for i in range(x):
 		string += ' '
 	string += '\n'
 print string
+
+print car.getName()
 
 
 # Board representation
