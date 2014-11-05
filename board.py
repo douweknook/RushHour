@@ -14,10 +14,39 @@ from collections import OrderedDict
 x = 6
 y = 6
 
+# Class Car
+
+class Car(object):
+	def __init__(self, name, length, direction, y, x):
+		self.name = name
+		self.length = length
+		self.y = y
+		self.x = x
+		self.direction = direction
+
+	def getName(self):
+		return self.name
+
+	def getDirection(self):
+		return self.direction
+
+	def getLength(self):
+		return self.length
+
+	def getCoordinates(self):
+		coordinates = (self.y, self.x)
+		return coordinates
+
+
+car1 = Car(1, 2, 'h', 0, 0)
+
 # Function to add car to board
-def addCar(name, length, direction, coordinate):
-	#TODO
-	return car
+def addCar(name, length, direction, y, x):
+	board[(y, x)] = car.name
+	board[(y, x + 1)] = car1.name
+	
+
+	
 
 # Function to move car
 def moveCar(name, direction, amount):
@@ -33,11 +62,16 @@ for row in range(x):
 # Order coordinates dictionary to form board
 board = OrderedDict(sorted(coordinates.items(), key=lambda x: x[0]))
 
+<<<<<<< HEAD
 board[(0,0)] = 1
 board[(0,2)] = 1
 board[(0,4)] = 1
 board[(2,0)] = 1
 board[(3,0)] = 1
+=======
+
+addCar(1, 0, 0)
+>>>>>>> ad00285ff4da953f6b36d8b7a96c18bd2d125404
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
@@ -47,6 +81,7 @@ for i in range(x):
 		string += ' '
 	string += '\n'
 print string
+
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
