@@ -8,21 +8,26 @@
 # oktober 2014
 
 import board
+import Tkinter
 
-import Tkinter as tk
-
-root = tk.Tk()
+root = Tkinter.Tk()
+root.geometry('450x450')
+#master.grid_columnconfigure()
 
 def draw():
-    global frame
-    frame = tk.Frame(root)
-    frame.pack()
 
-    for i,row in enumerate(board):
-        for j,column in enumerate(row):
-            name = str(i)+str(j)
-            L = tk.Label(gameframe,text='    ',bg= "grey" if board[i][j] == None else board[i][j])
-            L.grid(row=i,column=j,padx='3',pady='3')
-            L.bind('<Button-1>',lambda e,i=i,j=j:on_click(i,j,e))
+    for i in range(board.x):
+		for j in range(board.y):
+			if board.board[(i,j)] == 0:
+				Tkinter.Label(root, bg='grey', text='0') .grid(column=i, row=j)
+			elif board.board[(i,j)] == 1:
+				Tkinter.Label(root, bg='red', text='1') .grid(column=i, row=j)
+			#elif board.board[(i,j)] == 2:
+
+#for i in enumerate(board.x):
+ #  for j in enumerate(board.y):
+  #      L = tk.Label(frame,text='    ',bg= "grey" if board.board[(i,j)] == 0 else board.board[(i,j)])
+   #     L.grid(row=i,column=j,padx='3',pady='3')
 
 draw()
+root.mainloop()

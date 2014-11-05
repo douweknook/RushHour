@@ -63,9 +63,9 @@ for row in range(x):
 # Order coordinates dictionary to form board
 board = OrderedDict(sorted(coordinates.items(), key=lambda x: x[0]))
 
-
 addCar(1, 2, 'h', 0, 2)
 addCar(2, 2, 'v', 2, 1)
+
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
