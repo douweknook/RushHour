@@ -15,7 +15,8 @@ root = Tk()
 
 # Function to draw the board and cars
 def draw():
-	
+		
+
     	for i in range(board.x):
 			for j in range(board.y):
 				if board.board[(i,j)] == 0:
