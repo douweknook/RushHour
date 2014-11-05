@@ -62,16 +62,11 @@ for row in range(x):
 # Order coordinates dictionary to form board
 board = OrderedDict(sorted(coordinates.items(), key=lambda x: x[0]))
 
-<<<<<<< HEAD
 board[(0,0)] = 1
 board[(0,2)] = 1
-board[(0,4)] = 1
+board[(0,4)] = 2
 board[(2,0)] = 1
-board[(3,0)] = 1
-=======
-
-addCar(1, 0, 0)
->>>>>>> ad00285ff4da953f6b36d8b7a96c18bd2d125404
+board[(3,0)] = 2
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
