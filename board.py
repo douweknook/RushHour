@@ -33,6 +33,12 @@ for row in range(x):
 # Order coordinates dictionary to form board
 board = OrderedDict(sorted(coordinates.items(), key=lambda x: x[0]))
 
+board[(0,0)] = 1
+board[(0,2)] = 1
+board[(0,4)] = 1
+board[(2,0)] = 1
+board[(3,0)] = 1
+
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
 for i in range(x):
