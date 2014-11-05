@@ -38,16 +38,18 @@ class Car(object):
 		return coordinates
 
 
-
+cars = []
 # Function to add car to board
 def addCar(name, length, direction, y, x):
 	car = Car(name, length, direction, y, x)
+	cars.append(car)
 	if direction is 'h':
 		board[(y, x)] = car.name
 		board[(y, x + 1)] = car.name
 	if direction is 'v':
 		board[(y, x)] = car.name
-		board[(y + 1, x)] = car.name	
+		board[(y + 1, x)] = car.name
+	return cars	
 
 # Function to move car
 def moveCar(name, direction, amount):
@@ -76,7 +78,9 @@ for i in range(x):
 	string += '\n'
 print string
 
-print car.getName()
+print cars[0].getName()
+print cars[1].getName()
+print cars[0].getCoordinates()
 
 
 # Board representation
