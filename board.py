@@ -73,7 +73,7 @@ def moveCar(name, amount):
 			for car in cars:
 				if name == car.getName():
 					var = car
-					board[(car.y, car.x+car.length-1)] = ' '
+					board[(car.y+car.length-1, car.x)] = ' '
 					cars.remove(car)
 
 			if var.getDirection() == 'h':
@@ -82,8 +82,6 @@ def moveCar(name, amount):
 			if var.getDirection() == 'v':
 				var.y -= 1
 				addCar(var.name, var.length, var.direction, var.y, var.x)
-
-
 	return
 
 # Create all coordinates for the board
@@ -96,7 +94,7 @@ for row in range(y):
 board = OrderedDict(sorted(coordinates.items(), key=lambda x: x[0]))
 
 # Car(name, length, direction, y, x)
-addCar(0, 2, 'h', 2, 3) #Red car
+addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
 addCar(1, 2, 'h', 0, 3)
 addCar(2, 3, 'v', 0, 2)
 addCar(3, 3, 'v', 0, 5)
@@ -105,6 +103,8 @@ addCar(5, 2, 'h', 4, 1)
 addCar(6, 3, 'v', 3, 3)
 addCar(7, 2, 'h', 3, 4)
 addCar(8, 2, 'h', 5, 4)
+
+moveCar(4, -1)
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
