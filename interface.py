@@ -13,21 +13,22 @@ from Tkinter import *
 # Create root window
 root = Tk()
 
+colors = ['red', 'yellow', 'blue', 'green', 'pink', 'goldenrod', 'lavender', 'pale green',
+			'rosy brown', 'blanched almond', 'medium sea green', 'dark orange', 'hot pink', 'thistle', 'navy'
+			'indian red', 'lemin chiffon', 'olive drab', 'sandy brown', 'salmon', 'darl turquoise', 'maroon',
+			'cyan', 'deep sky blue', 'aquamarine', 'lime green', 'misty rose']
+
 # Function to draw the board and cars
 def draw():
-		
-
     	for i in range(board.x):
 			for j in range(board.y):
-				if board.board[(i,j)] == 0:
-					w = Label(root, bg='grey', text=str(board.board[(i,j)])) 
-					w.grid(column=i, row=j, ipadx='20', ipady='15')
-				elif board.board[(i,j)] == 1:
-					w = Label(root, bg='red', text=str(board.board[(i,j)])) 
-					w.grid(column=i, row=j, ipadx='20', ipady='15')
-				elif board.board[(i,j)] == 2:
-					w = Label(root, bg='blue', text=str(board.board[(i,j)])) 
-					w.grid(column=i, row=j, ipadx='20', ipady='15')
+				w = Label(root, bg='grey', text=str(board.board[(j,i)])) 
+				w.grid(column=i, row=j, ipadx='22', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
 
+				for k in range(len(board.cars)):	
+					x = board.cars[k].getName()
+					if board.board[(j,i)] == x:
+						w = Label(root, bg=colors[x], text=str(board.board[(j,i)])) 
+						w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
 draw()
 root.mainloop()

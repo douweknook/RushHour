@@ -11,8 +11,8 @@
 from collections import OrderedDict
 
 # Define board dimensions
-x = 6
 y = 6
+x = 6
 
 # Class Car
 
@@ -34,39 +34,77 @@ class Car(object):
 		return self.length
 
 	def getCoordinates(self):
-		coordinates = (self.y, self.x)
-		return coordinates
+		return self.y, self.x
 
 
 cars = []
+
 # Function to add car to board
 def addCar(name, length, direction, y, x):
 	car = Car(name, length, direction, y, x)
 	cars.append(car)
 	if direction is 'h':
-		board[(y, x)] = car.name
-		board[(y, x + 1)] = car.name
+		for l in range(length):
+			board[(y, x + l)] = car.name
 	if direction is 'v':
-		board[(y, x)] = car.name
-		board[(y + 1, x)] = car.name
+		for l in range(length):
+			board[(y + l, x)] = car.name
 	return cars	
 
 # Function to move car
-def moveCar(name, direction, amount):
-	
+def moveCar(name, amount):
+	if amount >= 0:
+		for i in range(0, amount):
+			for car in cars:
+				if name == car.getName():
+					var = car
+					board[(car.y, car.x)] = ' '
+					cars.remove(car)
+
+			if var.getDirection() == 'h':
+				var.x += 1
+				addCar(var.name, var.length, var.direction, var.y, var.x)
+			if var.getDirection() == 'v':
+				var.y += 1
+				addCar(var.name, var.length, var.direction, var.y, var.x)
+
+	elif amount < 0:
+		for i in range(0, amount, -1):
+			for car in cars:
+				if name == car.getName():
+					var = car
+					board[(car.y, car.x+car.length-1)] = ' '
+					cars.remove(car)
+
+			if var.getDirection() == 'h':
+				var.x -= 1
+				addCar(var.name, var.length, var.direction, var.y, var.x)
+			if var.getDirection() == 'v':
+				var.y -= 1
+				addCar(var.name, var.length, var.direction, var.y, var.x)
+
+
 	return
 
 # Create all coordinates for the board
 coordinates = {}
-for row in range(x):
-    for col in range(y):
-             coordinates[(row,col)] = 0
+for row in range(y):
+    for col in range(x):
+             coordinates[(row,col)] = ' '
 
 # Order coordinates dictionary to form board
 board = OrderedDict(sorted(coordinates.items(), key=lambda x: x[0]))
 
-addCar(1, 2, 'h', 0, 2)
-addCar(2, 2, 'v', 2, 1)
+# Car(name, length, direction, y, x)
+addCar(0, 2, 'h', 2, 3) #Red car
+addCar(1, 2, 'h', 0, 3)
+addCar(2, 3, 'v', 0, 2)
+addCar(3, 3, 'v', 0, 5)
+addCar(4, 2, 'v', 4, 0)
+addCar(5, 2, 'h', 4, 1)
+addCar(6, 3, 'v', 3, 3)
+addCar(7, 2, 'h', 3, 4)
+addCar(8, 2, 'h', 5, 4)
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
@@ -76,11 +114,6 @@ for i in range(x):
 		string += ' '
 	string += '\n'
 print string
-
-print cars[0].getName()
-print cars[1].getName()
-print cars[0].getCoordinates()
-
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
