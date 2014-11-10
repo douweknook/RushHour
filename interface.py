@@ -24,6 +24,15 @@ def draw():
 			for j in range(board.y):
 				w = Label(root, bg='grey', text=str(board.board[(j,i)])) 
 				w.grid(column=i, row=j, ipadx='22', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
+				if board.board[(i,j)] == '  ':
+					w = Label(root, bg='grey', text=str(board.board[(i,j)])) 
+					w.grid(column=i, row=j, ipadx='20', ipady='15')
+				elif board.board[(i,j)] == 1:
+					w = Label(root, bg='red', text=str(board.board[(i,j)])) 
+					w.grid(column=i, row=j, ipadx='20', ipady='15')
+				elif board.board[(i,j)] == 2:
+					w = Label(root, bg='blue', text=str(board.board[(i,j)])) 
+					w.grid(column=i, row=j, ipadx='20', ipady='15')
 
 				for k in range(len(board.cars)):	
 					x = board.cars[k].getName()
