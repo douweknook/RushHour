@@ -26,7 +26,7 @@ def draw():
 				w.grid(column=i, row=j, ipadx='22', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
 
 				for k in range(len(board.cars)):	
-					x = board.cars[k].getName()
+					x = board.cars[k].name
 					if board.board[j][i] == x:
 						w = Label(root, bg=colors[x], text=str(board.board[j][i])) 
 						w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)

@@ -7,12 +7,11 @@
 #
 # oktober 2014
 
-
-from collections import OrderedDict
-
 # Define board dimensions
 y = 6
 x = 6
+
+cars = []
 
 # Class Car
 class Car(object):
@@ -23,20 +22,8 @@ class Car(object):
 		self.x = x
 		self.direction = direction
 
-	def getName(self):
-		return self.name
-
-	def getDirection(self):
-		return self.direction
-
-	def getLength(self):
-		return self.length
-
 	def getCoordinates(self):
 		return self.y, self.x
-
-
-cars = []
 
 # Function to add car to board
 def addCar(name, length, direction, y, x):
@@ -55,58 +42,94 @@ def moveCar(name, amount):
 	if amount >= 0:
 		for i in range(0, amount):
 			for car in cars:
-				if name == car.getName():
+				if name == car.name:
 					var = car
 					board[car.y][car.x] = ' '
 					cars.remove(car)
 
-			if var.getDirection() == 'h':
-				if var.x + 1 == ' ':
-					var.x += 1
-					addCar(var.name, var.length, var.direction, var.y, var.x)
-			if var.getDirection() == 'v':
-					var.y += 1
-					addCar(var.name, var.length, var.direction, var.y, var.x)
+			if var.direction == 'h':
+				var.x += 1
+				addCar(var.name, var.length, var.direction, var.y, var.x)
+			if var.direction == 'v':	
+				var.y += 1
+				addCar(var.name, var.length, var.direction, var.y, var.x)
 
 	elif amount < 0:
 		for i in range(0, amount, -1):
 			for car in cars:
-				if name == car.getName():
+				if name == car.name:
 					var = car
-					board[car.y+car.length-1][car.x] = ' '
+					if car.direction == 'h':
+						board[car.y][car.x+car.length-1] = ' '
+					if car.direction == 'v':
+						board[car.y+car.length-1][car.x] = ' '
 					cars.remove(car)
 
-			if var.getDirection() == 'h':
+			if var.direction == 'h':
 				var.x -= 1
 				addCar(var.name, var.length, var.direction, var.y, var.x)
-			if var.getDirection() == 'v':
+			if var.direction == 'v':
 				var.y -= 1
 				addCar(var.name, var.length, var.direction, var.y, var.x)
 	return
 
-# Create all coordinates for the board
+def checkPossibleMoves():
+	for car in cars:
+		if car.direction == 'h':
+			for i in range(1, car.x + 1): #Use 1 in loop to ensure car.x-i is not 0
+				if board[car.y][car.x-i] == ' ':
+					print "possible move left", car.name				
+				else:
+					print "no more moves left", car.name
+					break
+			for j in range(car.x+car.length, x):
+				if board[car.y][j] == ' ':
+					print "possible move right", car.name
+				else:
+					print 'no more moves right', car.name
+					break
+		if car.direction == 'v':
+			for i in range(1, car.y + 1):
+				if board[car.y-i][car.x] == ' ':
+					print "possible move up", car.name
+				else:
+					print "no more moves up", car.name
+					break
+			for j in range(car.y+car.length, x):
+				if board[j][car.x] == ' ':
+					print "possible move down", car.name
+				else:
+					print "no more moves down", car.name
+					break
+
+	# Loop over cars
+	# Check for each car in direction open tiles
+	# return tiles
+
+#def makeMove:
+	# - Check possible moves
+	# - moveCar
+	# - Add board to Set
+	# - reload board
+
 board = []
 for row in range(y):
 	board.append([])
     	for col in range(x):
-        	board[row].append(' ')
+        	board[row].append(' ')	
 
 
-
-
-# Order coordinates dictionary to form board
-#board = OrderedDict(sorted(coordinates.items(), key=lambda x: x[0]))
-
-# Car(name, length, direction, y, x)
 addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
-addCar(1, 2, 'h', 0, 0)
+addCar(1, 2, 'h', 0, 3)
+#addCar(2, 3, 'v', 0, 2)
 addCar(3, 3, 'v', 0, 5)
-addCar(4, 2, 'v', 4, 0)
+addCar(4, 2, 'v', 2, 1)
 addCar(5, 2, 'h', 4, 1)
 addCar(6, 3, 'v', 3, 3)
 addCar(7, 2, 'h', 3, 4)
 addCar(8, 2, 'h', 5, 4)
 
+checkPossibleMoves()
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
