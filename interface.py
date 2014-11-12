@@ -24,14 +24,10 @@ def draw():
 			for j in range(board.y):
 				w = Label(root, bg='grey', text=str(board.board[j][i])) 
 				w.grid(column=i, row=j, ipadx='22', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
-<<<<<<< HEAD
-
-=======
->>>>>>> FETCH_HEAD
 
 				for k in range(len(board.cars)):	
 					x = board.cars[k].getName()
-					if board.board[(j,i)] == x:
+					if board.board[j][i] == x:
 						w = Label(root, bg=colors[x], text=str(board.board[j][i])) 
 						w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
 draw()
