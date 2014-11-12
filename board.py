@@ -15,7 +15,6 @@ y = 6
 x = 6
 
 # Class Car
-
 class Car(object):
 	def __init__(self, name, length, direction, y, x):
 		self.name = name
@@ -89,14 +88,10 @@ coordinates = {}
 for row in range(y):
     for col in range(x):
              coordinates[(row,col)] = ' '
-for row in range(x):
-    for col in range(y):
-             coordinates[(row,col)] = '  '
 
 
 # Order coordinates dictionary to form board
 board = OrderedDict(sorted(coordinates.items(), key=lambda x: x[0]))
-
 
 # Car(name, length, direction, y, x)
 addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
@@ -108,8 +103,6 @@ addCar(5, 2, 'h', 4, 1)
 addCar(6, 3, 'v', 3, 3)
 addCar(7, 2, 'h', 3, 4)
 addCar(8, 2, 'h', 5, 4)
-
-
 
 
 # Print out board (delete when we implement TKinter visualization?)
