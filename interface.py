@@ -15,7 +15,7 @@ root = Tk()
 
 colors = ['red', 'yellow', 'blue', 'green', 'pink', 'goldenrod', 'lavender', 'pale green',
 			'rosy brown', 'blanched almond', 'medium sea green', 'dark orange', 'hot pink', 'thistle', 'navy'
-			'indian red', 'lemin chiffon', 'olive drab', 'sandy brown', 'salmon', 'darl turquoise', 'maroon',
+			'indian red', 'lemin chiffon', 'olive drab', 'sandy brown', 'salmon', 'dark turquoise', 'maroon',
 			'cyan', 'deep sky blue', 'aquamarine', 'lime green', 'misty rose']
 
 # Function to draw the board and cars
@@ -24,7 +24,10 @@ def draw():
 			for j in range(board.y):
 				w = Label(root, bg='grey', text=str(board.board[(j,i)])) 
 				w.grid(column=i, row=j, ipadx='22', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
+<<<<<<< HEAD
 
+=======
+>>>>>>> FETCH_HEAD
 
 				for k in range(len(board.cars)):	
 					x = board.cars[k].getName()
