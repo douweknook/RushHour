@@ -13,10 +13,10 @@ from Tkinter import *
 # Create root window
 root = Tk()
 
-colors = ['red', 'yellow', 'blue', 'green', 'pink', 'goldenrod', 'lavender', 'pale green',
-			'rosy brown', 'blanched almond', 'medium sea green', 'dark orange', 'hot pink', 'thistle', 'navy'
-			'indian red', 'lemin chiffon', 'olive drab', 'sandy brown', 'salmon', 'dark turquoise', 'maroon',
-			'cyan', 'deep sky blue', 'aquamarine', 'lime green', 'misty rose']
+colors = ['red', 'yellow', 'blue', 'pink', 'goldenrod', 'lavender', 'pale green', 'blanched almond', 'green', 
+			'medium sea green', 'dark orange', 'hot pink', 'thistle', 'navy', 'indian red', 'lemin chiffon', 
+			'olive drab', 'sandy brown', 'salmon', 'dark turquoise', 'rosy brown', 'maroon', 'cyan', 
+			'deep sky blue', 'aquamarine', 'lime green', 'misty rose']
 
 # Function to draw the board and cars
 def draw():

@@ -71,6 +71,7 @@ def moveCar(name, amount):
 			if var.direction == 'v':
 				var.y -= 1
 				addCar(var.name, var.length, var.direction, var.y, var.x)
+
 	return
 
 def checkPossibleMoves():
@@ -102,9 +103,14 @@ def checkPossibleMoves():
 					print "no more moves down", car.name
 					break
 
-	# Loop over cars
-	# Check for each car in direction open tiles
-	# return tiles
+def checkWin():
+	for car in cars:
+		if car.name == 0:
+			if car.y == 2 and car.x == 4:
+				print "Winner!"
+
+
+# Coordinaten (bijvoorbeeld [car.x-i][car.y]) van move left, right, up, down, opslaan per auto. 
 
 #def makeMove:
 	# - Check possible moves
@@ -121,15 +127,17 @@ for row in range(y):
 
 addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
 addCar(1, 2, 'h', 0, 3)
-#addCar(2, 3, 'v', 0, 2)
+addCar(2, 3, 'v', 0, 2)
 addCar(3, 3, 'v', 0, 5)
-addCar(4, 2, 'v', 2, 1)
+addCar(4, 2, 'v', 4, 0)
 addCar(5, 2, 'h', 4, 1)
 addCar(6, 3, 'v', 3, 3)
 addCar(7, 2, 'h', 3, 4)
 addCar(8, 2, 'h', 5, 4)
 
 checkPossibleMoves()
+
+checkWin()
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
