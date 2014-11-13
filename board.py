@@ -153,15 +153,7 @@ addCar(8, 2, 'h', 5, 4)
 
 checkPossibleMoves()
 
-<<<<<<< HEAD
-checkWin()
-=======
-Boardset = set([])
 
-Boardset.update([board])
-print Boardset
-
->>>>>>> FETCH_HEAD
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
