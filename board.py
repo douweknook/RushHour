@@ -25,6 +25,7 @@ class Car(object):
 	def getCoordinates(self):
 		return self.y, self.x
 
+
 # Function to add car to board
 def addCar(name, length, direction, y, x):
 	car = Car(name, length, direction, y, x)
@@ -37,6 +38,8 @@ def addCar(name, length, direction, y, x):
 			board[y + l][x] = car.name
 	return cars	
 
+		
+
 # Function to move car
 def moveCar(name, amount):
 	if amount >= 0:
@@ -46,6 +49,7 @@ def moveCar(name, amount):
 					var = car
 					board[car.y][car.x] = ' '
 					cars.remove(car)
+
 
 			if var.direction == 'h':
 				var.x += 1
@@ -73,12 +77,16 @@ def moveCar(name, amount):
 				addCar(var.name, var.length, var.direction, var.y, var.x)
 	return
 
+
+MoveList = []
+
 def checkPossibleMoves():
 	for car in cars:
+		MoveList.append([])
 		if car.direction == 'h':
-			for i in range(1, car.x + 1): #Use 1 in loop to ensure car.x-i is not 0
-				if board[car.y][car.x-i] == ' ':
-					print "possible move left", car.name				
+			for i in range(1, car.x + 1): #Use 1 in loop to ensure car.x-i is not 0				
+				if board[car.y][car.x-i] == ' ':					
+					print "possible move left", car.name
 				else:
 					print "no more moves left", car.name
 					break
@@ -119,6 +127,14 @@ for row in range(y):
         	board[row].append(' ')	
 
 
+
+		
+
+
+
+
+
+
 addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
 addCar(1, 2, 'h', 0, 3)
 #addCar(2, 3, 'v', 0, 2)
@@ -130,6 +146,12 @@ addCar(7, 2, 'h', 3, 4)
 addCar(8, 2, 'h', 5, 4)
 
 checkPossibleMoves()
+
+Boardset = set([])
+
+Boardset.update([board])
+print Boardset
+
 
 # Print out board (delete when we implement TKinter visualization?)
 string = ''
