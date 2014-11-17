@@ -11,8 +11,6 @@
 y = 6
 x = 6
 
-cars = []
-
 # Class Car
 class Car(object):
 	def __init__(self, name, length, direction, y, x):
@@ -25,59 +23,67 @@ class Car(object):
 	def getCoordinates(self):
 		return self.y, self.x
 
+class Board(object):
+	"""docstring for Board"""
+	def __init__(self, y, x):
+		self.board = []
+		for row in range(y):
+			self.board.append([])
+		    	for col in range(x):
+		        	self.board[row].append(' ')
 
-# Function to add car to board
-def addCar(name, length, direction, y, x):
-	car = Car(name, length, direction, y, x)
-	cars.append(car)
-	if direction is 'h':
-		for l in range(length):
-			board[y][x + l] = car.name
-	if direction is 'v':
-		for l in range(length):
-			board[y + l][x] = car.name
-	return cars	
+	# Function to add car to board
+	def addCar(self, name, length, direction, y, x):
+		car = Car(name, length, direction, y, x)
+		if direction is 'h':
+			for l in range(length):
+				self.board[y][x + l] = car
+		if direction is 'v':
+			for l in range(length):
+				self.board[y + l][x] = car
 
-		
+	# Function to move car
+	def moveCar(self, name, amount):
+		for i in range(y):
+			for j in range(x):
+				if self.board[i][j] != ' ':
+					if self.board[i][j].name == name:
+						if amount >= 0:
+							if self.board[i][j].direction == 'h':
+								print self.board[i][j].x
+								self.board[i][j].x += amount
+								print self.board[i][j].x
+'''
+								var = self.board[i][j]
+								self.board[i][j] = ' '
 
-# Function to move car
-def moveCar(name, amount):
-	if amount >= 0:
-		for i in range(0, amount):
-			for car in cars:
-				if name == car.name:
-					var = car
-					board[car.y][car.x] = ' '
-					cars.remove(car)
+								print var
+								print var.name, var.length, var.direction, var.y, var.x
 
+								if var.direction == 'h':
+									var.x += 1
+									board.addCar(var.name, var.length, var.direction, var.y, var.x)
 
-			if var.direction == 'h':
-				var.x += 1
-				addCar(var.name, var.length, var.direction, var.y, var.x)
-			if var.direction == 'v':	
-				var.y += 1
-				addCar(var.name, var.length, var.direction, var.y, var.x)
+								if var.direction == 'v':	
+									var.y += 1
+									board.addCar(var.name, var.length, var.direction, var.y, var.x)
 
-	elif amount < 0:
-		for i in range(0, amount, -1):
-			for car in cars:
-				if name == car.name:
-					var = car
-					if car.direction == 'h':
-						board[car.y][car.x+car.length-1] = ' '
-					if car.direction == 'v':
-						board[car.y+car.length-1][car.x] = ' '
-					cars.remove(car)
+						
+						elif amount < 0:
+							for i in range(0, amount, -1):
+								var = car
+								if car.direction == 'h':
+									board[car.y][car.x+car.length-1] = ' '
+								if car.direction == 'v':
+									board[car.y+car.length-1][car.x] = ' '
 
-			if var.direction == 'h':
-				var.x -= 1
-				addCar(var.name, var.length, var.direction, var.y, var.x)
-			if var.direction == 'v':
-				var.y -= 1
-				addCar(var.name, var.length, var.direction, var.y, var.x)
-
-	return
-
+								if var.direction == 'h':
+									var.x -= 1
+									addCar(var.name, var.length, var.direction, var.y, var.x)
+								if var.direction == 'v':
+									var.y -= 1
+									addCar(var.name, var.length, var.direction, var.y, var.x)
+						'''
 
 MoveList = []
 
@@ -125,44 +131,36 @@ def checkWin():
 	# - moveCar
 	# - Add board to Set
 	# - reload board
-
-board = []
-for row in range(y):
-	board.append([])
-    	for col in range(x):
-        	board[row].append(' ')	
+	
 
 
 
-		
+board = Board(y, x)
 
 
+board.addCar(0, 2, 'h', 0, 0) #Car 0 is the red car
+#board.addCar(1, 2, 'h', 0, 3)
+#board.addCar(2, 3, 'v', 0, 2)
+#board.addCar(3, 3, 'v', 0, 5)
+#board.addCar(4, 2, 'v', 4, 0)
+#board.addCar(5, 2, 'h', 4, 1)
+#board.addCar(6, 3, 'v', 3, 3)
+#board.addCar(7, 2, 'h', 3, 4)
+#board.addCar(8, 2, 'h', 5, 4)
 
+#checkPossibleMoves()
 
-
-
-addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
-addCar(1, 2, 'h', 0, 3)
-addCar(2, 3, 'v', 0, 2)
-addCar(3, 3, 'v', 0, 5)
-addCar(4, 2, 'v', 4, 0)
-addCar(5, 2, 'h', 4, 1)
-addCar(6, 3, 'v', 3, 3)
-addCar(7, 2, 'h', 3, 4)
-addCar(8, 2, 'h', 5, 4)
-
-checkPossibleMoves()
-
-
-
+board.moveCar(0, 1)
 # Print out board (delete when we implement TKinter visualization?)
+'''
 string = ''
 for i in range(x):
 	for j in range(y):
-		string += str(board[i][j])
+		string += str(board.board[i][j])
 		string += ' '
 	string += '\n'
 print string
+'''
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
