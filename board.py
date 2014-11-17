@@ -41,6 +41,7 @@ class Board(object):
 		if direction is 'v':
 			for l in range(length):
 				self.board[y + l][x] = car
+	
 
 	# Function to move car
 	def moveCar(self, name, amount):
@@ -53,7 +54,10 @@ class Board(object):
 								print self.board[i][j].x
 								self.board[i][j].x += amount
 								print self.board[i][j].x
-'''
+
+
+
+
 								var = self.board[i][j]
 								self.board[i][j] = ' '
 
@@ -83,45 +87,55 @@ class Board(object):
 								if var.direction == 'v':
 									var.y -= 1
 									addCar(var.name, var.length, var.direction, var.y, var.x)
-						'''
+						
 
-MoveList = []
+	def checkPossibleMoves(self):
+		movesList = []
+		carnames = []
+		for row in range(y):
+			for col in range(x):
+				if self.board[row][col] != ' ':
+					car = self.board[row][col]
+					if car.name in carnames:
+						continue
+					else:
+						carnames.append(car.name)
+						if car.direction == 'h':
+							for i in range(car.x-1, -1, -1): #Use 1 in loop to ensure car.x-i is not 0
+								if self.board[row][i] == ' ':	
+									print "possible move left", car.name
+									movesList.append([car.name, i-car.x])
+								else:
+									print "no more moves left", car.name
+									break
+							for j in range(car.x+car.length, x):
+								if self.board[row][j] == ' ':
+									print "possible move right", car.name
+									movesList.append([car.name, j-(car.x+(car.length-1))])
+								else:
+									print 'no more moves right', car.name
+									break
+						if car.direction == 'v':
+							for i in range(car.y-1, -1, -1):
+								if self.board[i][col] == ' ':
+									print "possible move up", car.name
+									movesList.append([car.name, i-car.y])
+								else:
+									print "no more moves up", car.name
+									break
+							for j in range(car.y+car.length, y):
+								if self.board[j][col] == ' ':
+									print "possible move down", car.name
+									movesList.append([car.name, j-(car.y+(car.length-1))])
+								else:
+									print "no more moves down", car.name
+									break
+		print movesList
+		return movesList
 
-def checkPossibleMoves():
-	for car in cars:
-		MoveList.append([])
-		if car.direction == 'h':
-			for i in range(1, car.x + 1): #Use 1 in loop to ensure car.x-i is not 0				
-				if board[car.y][car.x-i] == ' ':					
-					print "possible move left", car.name
-				else:
-					print "no more moves left", car.name
-					break
-			for j in range(car.x+car.length, x):
-				if board[car.y][j] == ' ':
-					print "possible move right", car.name
-				else:
-					print 'no more moves right', car.name
-					break
-		if car.direction == 'v':
-			for i in range(1, car.y + 1):
-				if board[car.y-i][car.x] == ' ':
-					print "possible move up", car.name
-				else:
-					print "no more moves up", car.name
-					break
-			for j in range(car.y+car.length, x):
-				if board[j][car.x] == ' ':
-					print "possible move down", car.name
-				else:
-					print "no more moves down", car.name
-					break
-
-def checkWin():
-	for car in cars:
-		if car.name == 0:
-			if car.y == 2 and car.x == 4:
-				print "Winner!"
+	def checkWin(self):
+		if self.board[2][5].name == 0:
+			print "win!"
 
 
 # Coordinaten (bijvoorbeeld [car.x-i][car.y]) van move left, right, up, down, opslaan per auto. 
@@ -131,36 +145,23 @@ def checkWin():
 	# - moveCar
 	# - Add board to Set
 	# - reload board
-	
-
 
 
 board = Board(y, x)
 
 
-board.addCar(0, 2, 'h', 0, 0) #Car 0 is the red car
-#board.addCar(1, 2, 'h', 0, 3)
-#board.addCar(2, 3, 'v', 0, 2)
-#board.addCar(3, 3, 'v', 0, 5)
-#board.addCar(4, 2, 'v', 4, 0)
-#board.addCar(5, 2, 'h', 4, 1)
-#board.addCar(6, 3, 'v', 3, 3)
-#board.addCar(7, 2, 'h', 3, 4)
-#board.addCar(8, 2, 'h', 5, 4)
+board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
+board.addCar(1, 2, 'h', 0, 3)
+board.addCar(2, 3, 'v', 0, 2)
+board.addCar(3, 3, 'v', 0, 5)
+board.addCar(4, 2, 'v', 4, 0)
+board.addCar(5, 2, 'h', 4, 1)
+board.addCar(6, 3, 'v', 3, 3)
+board.addCar(7, 2, 'h', 3, 4)
+board.addCar(8, 2, 'h', 5, 4)
 
-#checkPossibleMoves()
-
-board.moveCar(0, 1)
-# Print out board (delete when we implement TKinter visualization?)
-'''
-string = ''
-for i in range(x):
-	for j in range(y):
-		string += str(board.board[i][j])
-		string += ' '
-	string += '\n'
-print string
-'''
+board.checkPossibleMoves()
+#board.checkWin()
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
