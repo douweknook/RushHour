@@ -1,3 +1,5 @@
+import copy
+
 # Rush Hour
 # board.py
 #
@@ -6,6 +8,7 @@
 # Universiteit van Amsterdam
 #
 # oktober 2014
+
 
 # Define board dimensions
 y = 6
@@ -104,14 +107,14 @@ class Board(object):
 							for i in range(car.x-1, -1, -1): #Use 1 in loop to ensure car.x-i is not 0
 								if self.board[row][i] == ' ':	
 									print "possible move left", car.name
-									movesList.append([car.name, i-car.x])
+									movesList.append([car, i-car.x])
 								else:
 									print "no more moves left", car.name
 									break
 							for j in range(car.x+car.length, x):
 								if self.board[row][j] == ' ':
 									print "possible move right", car.name
-									movesList.append([car.name, j-(car.x+(car.length-1))])
+									movesList.append([car, j-(car.x+(car.length-1))])
 								else:
 									print 'no more moves right', car.name
 									break
@@ -119,14 +122,14 @@ class Board(object):
 							for i in range(car.y-1, -1, -1):
 								if self.board[i][col] == ' ':
 									print "possible move up", car.name
-									movesList.append([car.name, i-car.y])
+									movesList.append([car, i-car.y])
 								else:
 									print "no more moves up", car.name
 									break
 							for j in range(car.y+car.length, y):
 								if self.board[j][col] == ' ':
 									print "possible move down", car.name
-									movesList.append([car.name, j-(car.y+(car.length-1))])
+									movesList.append([car, j-(car.y+(car.length-1))])
 								else:
 									print "no more moves down", car.name
 									break
@@ -136,6 +139,7 @@ class Board(object):
 	def checkWin(self):
 		if self.board[2][5].name == 0:
 			print "win!"
+
 
 
 # Coordinaten (bijvoorbeeld [car.x-i][car.y]) van move left, right, up, down, opslaan per auto. 
@@ -152,7 +156,7 @@ board = Board(y, x)
 
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
 board.addCar(1, 2, 'h', 0, 3)
-board.addCar(2, 3, 'v', 0, 2)
+board.addCar(2, 3, 'v', 1, 2)
 board.addCar(3, 3, 'v', 0, 5)
 board.addCar(4, 2, 'v', 4, 0)
 board.addCar(5, 2, 'h', 4, 1)
