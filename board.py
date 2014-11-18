@@ -29,10 +29,12 @@ class Car(object):
 class Board(object):
 	"""docstring for Board"""
 	def __init__(self, y, x):
+		self.y = y
+		self.x = x
 		self.board = []
-		for row in range(y):
+		for row in range(self.y):
 			self.board.append([])
-		    	for col in range(x):
+		    	for col in range(self.x):
 		        	self.board[row].append(' ')
 
 	# Function to add car to board
@@ -47,50 +49,29 @@ class Board(object):
 	
 
 	# Function to move car
-	def moveCar(self, name, amount):
-		for i in range(y):
-			for j in range(x):
-				if self.board[i][j] != ' ':
-					if self.board[i][j].name == name:
-						if amount >= 0:
-							if self.board[i][j].direction == 'h':
-								print self.board[i][j].x
-								self.board[i][j].x += amount
-								print self.board[i][j].x
+	def moveCar(self, car, amount):
+		# remove car from board
+		if car.direction is 'h':
+			for l in range(car.length):
+				self.board[car.y][car.x + l] = ' '
+		if car.direction is 'v':
+			for l in range(car.length):
+				self.board[car.y + l][car.x] = ' '
 
+		# update car.x/car.y
+		if car.direction == 'h':
+			car.x += amount
+		if car.direction == 'v':
+			car.y += amount
 
+		# redraw car
+		if car.direction is 'h':
+			for l in range(car.length):
+				self.board[car.y][car.x + l] = car
+		if car.direction is 'v':
+			for l in range(car.length):
+				self.board[car.y + l][car.x] = car
 
-
-								var = self.board[i][j]
-								self.board[i][j] = ' '
-
-								print var
-								print var.name, var.length, var.direction, var.y, var.x
-
-								if var.direction == 'h':
-									var.x += 1
-									board.addCar(var.name, var.length, var.direction, var.y, var.x)
-
-								if var.direction == 'v':	
-									var.y += 1
-									board.addCar(var.name, var.length, var.direction, var.y, var.x)
-
-						
-						elif amount < 0:
-							for i in range(0, amount, -1):
-								var = car
-								if car.direction == 'h':
-									board[car.y][car.x+car.length-1] = ' '
-								if car.direction == 'v':
-									board[car.y+car.length-1][car.x] = ' '
-
-								if var.direction == 'h':
-									var.x -= 1
-									addCar(var.name, var.length, var.direction, var.y, var.x)
-								if var.direction == 'v':
-									var.y -= 1
-									addCar(var.name, var.length, var.direction, var.y, var.x)
-						
 
 	def checkPossibleMoves(self):
 		movesList = []
@@ -133,8 +114,9 @@ class Board(object):
 								else:
 									print "no more moves down", car.name
 									break
-		print movesList
 		return movesList
+
+	def copyBoard(self):
 
 	def checkWin(self):
 		if self.board[2][5].name == 0:
@@ -156,7 +138,7 @@ board = Board(y, x)
 
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
 board.addCar(1, 2, 'h', 0, 3)
-board.addCar(2, 3, 'v', 1, 2)
+board.addCar(2, 3, 'v', 0, 2)
 board.addCar(3, 3, 'v', 0, 5)
 board.addCar(4, 2, 'v', 4, 0)
 board.addCar(5, 2, 'h', 4, 1)
@@ -164,7 +146,10 @@ board.addCar(6, 3, 'v', 3, 3)
 board.addCar(7, 2, 'h', 3, 4)
 board.addCar(8, 2, 'h', 5, 4)
 
-board.checkPossibleMoves()
+movesList2 = board.checkPossibleMoves()
+print movesList2[0][0].name, movesList2[0][1]
+board.moveCar(movesList2[0][0], movesList2[0][1])
+
 #board.checkWin()
 
 # Board representation
