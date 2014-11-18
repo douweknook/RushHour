@@ -1,4 +1,5 @@
 import copy
+import Queue
 
 # Rush Hour
 # board.py
@@ -87,54 +88,46 @@ class Board(object):
 						if car.direction == 'h':
 							for i in range(car.x-1, -1, -1): #Use 1 in loop to ensure car.x-i is not 0
 								if self.board[row][i] == ' ':	
-									print "possible move left", car.name
+									#print "possible move left", car.name
 									movesList.append([car, i-car.x])
 								else:
-									print "no more moves left", car.name
+									#print "no more moves left", car.name
 									break
 							for j in range(car.x+car.length, x):
 								if self.board[row][j] == ' ':
-									print "possible move right", car.name
+									#print "possible move right", car.name
 									movesList.append([car, j-(car.x+(car.length-1))])
 								else:
-									print 'no more moves right', car.name
+									#print 'no more moves right', car.name
 									break
 						if car.direction == 'v':
 							for i in range(car.y-1, -1, -1):
 								if self.board[i][col] == ' ':
-									print "possible move up", car.name
+									#print "possible move up", car.name
 									movesList.append([car, i-car.y])
 								else:
-									print "no more moves up", car.name
+									#print "no more moves up", car.name
 									break
 							for j in range(car.y+car.length, y):
 								if self.board[j][col] == ' ':
-									print "possible move down", car.name
+									#print "possible move down", car.name
 									movesList.append([car, j-(car.y+(car.length-1))])
 								else:
-									print "no more moves down", car.name
+									#print "no more moves down", car.name
 									break
 		return movesList
 
 	def copyBoard(self):
+		return copy.deepcopy(self.board)
 
 	def checkWin(self):
 		if self.board[2][5].name == 0:
-			print "win!"
-
-
-
-# Coordinaten (bijvoorbeeld [car.x-i][car.y]) van move left, right, up, down, opslaan per auto. 
-
-#def makeMove:
-	# - Check possible moves
-	# - moveCar
-	# - Add board to Set
-	# - reload board
+			return True
+		else:
+			return False
 
 
 board = Board(y, x)
-
 
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
 board.addCar(1, 2, 'h', 0, 3)
@@ -146,9 +139,41 @@ board.addCar(6, 3, 'v', 3, 3)
 board.addCar(7, 2, 'h', 3, 4)
 board.addCar(8, 2, 'h', 5, 4)
 
-movesList2 = board.checkPossibleMoves()
-print movesList2[0][0].name, movesList2[0][1]
-board.moveCar(movesList2[0][0], movesList2[0][1])
+# Add board to Queue
+q = Queue.Queue()
+q.put(board)
+
+boardSet = set([])
+boardSet.add(board)
+
+while board.checkWin() != True:
+	board = q.get()
+	movesList = board.checkPossibleMoves()
+	for move in range(len(movesList)):
+		boardCopy = board.copyBoard()
+		board.moveCar(movesList[move][0], movesList[move][1])
+		if boardCopy not in boardSet:
+			boardSet.add(boardCopy)
+			q.put(boardCopy)
+	break
+'''
+#LOOP until win == true
+#load board from Queue
+#CheckPossibleMoves
+#Loop over MovesList
+	#copyBoard
+	#moveCar
+	#If duplicate = false
+		#add to Queue
+
+
+movesList = board.checkPossibleMoves()
+print movesList [0][0].name, movesList[0][1]
+board.moveCar(movesList[0][0], movesList[0][1])
+
+boardSet = set([])
+boardSet.add(board)
+'''
 
 #board.checkWin()
 
