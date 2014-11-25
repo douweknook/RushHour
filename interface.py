@@ -29,5 +29,6 @@ def draw():
 				else:
 					w = Label(root, bg=colors[board.board.board[j][i].name], text=str(board.board.board[j][i].name)) 
 					w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
+
 draw()
 root.mainloop()

@@ -38,6 +38,15 @@ class Board(object):
 		    	for col in range(self.x):
 		        	self.board[row].append(' ')
 
+   
+	def __eq__(self, other):
+		self.board == other.board
+
+
+
+	def __hash__(self):
+		return hash(self.board)
+
 	# Function to add car to board
 	def addCar(self, name, length, direction, y, x):
 		car = Car(name, length, direction, y, x)
@@ -50,6 +59,7 @@ class Board(object):
 	
 
 	# Function to move car
+
 	def moveCar(self, car, amount):
 		# remove car from board
 		if car.direction is 'h':
@@ -75,11 +85,11 @@ class Board(object):
 			for l in range(car.length):
 				#print l
 				self.board[car.y + l][car.x] = car
-				print car.y+l
+				#print car.y+l
 
 
 	def checkPossibleMoves(self):
-		movesList = []
+		movesList = []		
 		carnames = []
 		for row in range(y):
 			for col in range(x):
@@ -90,7 +100,7 @@ class Board(object):
 					else:
 						carnames.append(car.name)
 						if car.direction == 'h':
-							for i in range(car.x-1, -1, -1):
+							for i in range(car.x-1, 0, -1): #0 is aangepast van -1
 								if self.board[row][i] == ' ':	
 									movesList.append([car, i-car.x])
 								else:
@@ -101,7 +111,7 @@ class Board(object):
 								else:
 									break
 						if car.direction == 'v':
-							for i in range(car.y-1, -1, -1):
+							for i in range(car.y-1, 0, -1): #same as aboveee
 								if self.board[i][col] == ' ':
 									movesList.append([car, i-car.y])
 								else:
@@ -111,10 +121,13 @@ class Board(object):
 									movesList.append([car, j-(car.y+(car.length-1))])
 								else:
 									break
+
 		return movesList
+
 
 	def copyBoard(self):
 		return copy.deepcopy(self)
+
 
 	def checkWin(self):
 		if self.board[2][5].name == 0:
@@ -136,35 +149,41 @@ board.addCar(7, 2, 'h', 3, 4)
 board.addCar(8, 2, 'h', 5, 4)
 
 
+
 # Add board to Queue
 q = Queue.Queue()
 q.put(board)
 
-board.board = tuple(board.board)
-boardHash = hash(board)
+boardCopy = tuple([tuple for l in board.board])
+#boardHash = hash(board)
 
 boardSet = set([])
-boardSet.add(boardHash)
+boardSet.add(boardCopy)
 
 
-while board.checkWin() != True:
+#while board.checkWin() != True:
+for i in range (12):
 	board = q.get()
 	#board.board = list(board.board)
 	movesList = board.checkPossibleMoves()
-	print movesList
+	#print movesList
 	for move in range(len(movesList)):
 		#print movesList[move][0].name
 		boardCopy = board.copyBoard()
 		#print boardCopy
 		boardCopy.moveCar(movesList[move][0], movesList[move][1])
-		#print move
-		boardCopy.board = tuple(boardCopy.board)
-		boardHash = hash(boardCopy)
-		if boardHash not in boardSet:
+		print move
+		boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
+		#boardCopy.board = tuple(boardCopy.board)
+		#print boardCopy.board
+		#boardHash = hash(boardCopy)
+		if boardCopy not in boardSet:
 			#print boardSet
-			boardSet.add(boardHash)
-			#boardCopy.board = list(boardCopy.board)
+			boardSet.add(boardCopy)
+			boardCopy.board = list([list(l) for l in boardCopy.board])
 			q.put(boardCopy)
+
+
 	
 '''
 #LOOP until win == true
@@ -176,6 +195,11 @@ while board.checkWin() != True:
 	#If duplicate = false
 		#add to Queue
 '''
+'''=======
+movesList2 = board.checkPossibleMoves()
+print movesList2[0][0].name, movesList2[0][1]
+board.moveCar(movesList2[0][0], movesList2[0][1])
+>>>>>>> Stashed changes'''
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
