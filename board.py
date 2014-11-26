@@ -14,7 +14,7 @@ import Queue
 # Define board dimensions
 y = 6
 x = 6
-
+steps = 0
 
 # Class Car
 class Car(object):
@@ -55,36 +55,39 @@ class Board(object):
 			for l in range(length):
 				self.board[y + l][x] = car
 	
-
+	
 	# Function to move car
 	def moveCar(self, car, amount):
-		print "car name", car.name
+		#print "car name", car.name
 		carCopy = copy.deepcopy(car)
 		# remove car from board
 		if car.direction is 'h':
 			for l in range(car.length):
 				self.board[car.y][car.x + l] = ' '
+				#print "car.x+l", car.x+l
 		if car.direction is 'v':
 			for l in range(car.length):
 				self.board[car.y + l][car.x] = ' '
 
 		# update car.x/car.y
 		if carCopy.direction == 'h':
+			#print "car.x", carCopy.x
 			carCopy.x += amount
+			#print "car.x, amount", carCopy.x, amount
 		if carCopy.direction == 'v':
-			print "car.y", carCopy.y
+			#print "car.y", carCopy.y
 			carCopy.y += amount
-			print "car.y, amount", carCopy.y, amount
+			#print "car.y, amount", carCopy.y, amount
 
 		# redraw car
 		if carCopy.direction is 'h':
 			for l in range(carCopy.length):
 				self.board[carCopy.y][carCopy.x + l] = carCopy
-				print carCopy.x, carCopy.x+l
+				#print "car.x, car.x+l", carCopy.x, carCopy.x+l
 		if carCopy.direction is 'v':
 			for l in range(carCopy.length):
 				self.board[carCopy.y + l][carCopy.x] = carCopy
-				print "car.y, car.y+l", carCopy.y, carCopy.y+l
+				#print "car.y, car.y+l", carCopy.y, carCopy.y+l
 
 	def checkPossibleMoves(self):
 		movesList = []		
@@ -126,9 +129,12 @@ class Board(object):
 		return copy.deepcopy(self)
 
 	def checkWin(self):
-		if self.board[2][5].name == 0:
-			print "	WIN!!!"
-			return True
+		if self.board[2][5] != ' ':
+			if self.board[2][5].name == 0:
+				print "	WIN!!!"
+				return True
+			else:
+				return False
 		else:
 			return False
 
@@ -149,21 +155,21 @@ class Board(object):
 board = Board(y, x)
 
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
+
 board.addCar(1, 2, 'h', 0, 3)
 board.addCar(2, 3, 'v', 0, 2)
 board.addCar(3, 3, 'v', 0, 5)
 board.addCar(4, 2, 'v', 4, 0)
 board.addCar(5, 2, 'h', 4, 1)
 board.addCar(6, 3, 'v', 3, 3)
-board.addCar(7, 2, 'h', 3, 4)
-board.addCar(8, 2, 'h', 5, 4)
+#board.addCar(7, 2, 'h', 3, 4)
+#board.addCar(8, 2, 'h', 5, 4)
 
 # Add board to Queue
 q = Queue.Queue()
 q.put(board)
 
 boardCopy = board.copyBoard()
-print boardCopy.board
 boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
 
 #boardHash = hash(boardCopy)
@@ -171,27 +177,29 @@ boardSet = set([])
 boardSet.add(boardCopy)
 #print boardSet
 
-#while board.checkWin() != True:
-for i in range (5):
+while boardCopy.checkWin() != True:
+#for i in range (2):
 	initialBoard = q.get()
+	print "Initial Board"
+	initialBoard.printBoard()
 	#board.board = list(board.board)
-	movesList = board.checkPossibleMoves()
+	movesList = initialBoard.checkPossibleMoves()
 	print "movesList: ", movesList
 	for move in range(len(movesList)):
 		boardCopy = initialBoard.copyBoard()
-		print "hier", boardCopy.board
 		boardCopy.moveCar(movesList[move][0], movesList[move][1])
-		#TEKEN BOARD!
-		board.printBoard()
+
+		#boardCopy.printBoard() #TEKENT BOARD!
+		
 		boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
 		if boardCopy not in boardSet:
 			boardSet.add(boardCopy)
 			boardCopy.board = list([list(l) for l in boardCopy.board])
 			q.put(boardCopy)
-			print boardSet
+			print len(boardSet)
+	steps+=1
 
-#while not q.empty():
-#  	print q.get().board
+print steps
 	
 '''
 #LOOP until win == true
