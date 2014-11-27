@@ -21,6 +21,12 @@ class Car(object):
 		self.length = length
 		self.direction = direction
 
+	def __hash__(self):
+		return hash(self.name)
+
+	def __eq__(self, other):
+		return isinstance(other, Car) and self.name == other.name
+
 class Board(object):
 	"""Class that contains a board object"""
 	def __init__(self, y, x):
@@ -55,7 +61,7 @@ class Board(object):
 		if car.direction is 'h':
 			for l in range(car.length):
 				self.board[y][x + l] = ' '
-		if car.direction is 'v':
+		else:
 			for l in range(car.length):
 				self.board[y + l][x] = ' '
 
@@ -152,7 +158,6 @@ class Board(object):
 board = Board(y, x)
 
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
-
 board.addCar(1, 2, 'h', 0, 3)
 board.addCar(2, 3, 'v', 0, 2)
 board.addCar(3, 3, 'v', 0, 5)
@@ -162,6 +167,7 @@ board.addCar(6, 3, 'v', 3, 3)
 board.addCar(7, 2, 'h', 3, 4)
 board.addCar(8, 2, 'h', 5, 4)
 
+
 # Add board to Queue
 q = Queue.Queue()
 q.put(board)
@@ -170,27 +176,22 @@ boardCopy = board.copyBoard()
 boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
 
 boardSet = set([])
-#boardCopyString = boardCopy.makeString()
 boardSet.add(boardCopy)
 
 while boardCopy.checkWin() != True:
 	initialBoard = q.get()
-	#print "Initial Board"
-	#initialBoard.printBoard()
 	movesList = initialBoard.checkPossibleMoves()
-	#print "movesList: ", movesList
 	for move in range(len(movesList)):
 		boardCopy = initialBoard.copyBoard()
 		
 		boardCopy.moveCar(movesList[move][0], movesList[move][1], movesList[move][2], movesList[move][3])
 		temp = boardCopy.board
 		boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
-		#boardCopyString = boardCopy.makeString()
-
 		if boardCopy not in boardSet:
 			boardSet.add(boardCopy)
 			boardCopy.board = temp
 			q.put(boardCopy)
+
 
 
 # Board representation
