@@ -13,7 +13,6 @@ import Queue
 # Define board dimensions
 y = 6
 x = 6
-steps = 0
 
 class Car(object):
 	"""Class that contains a car object"""
@@ -147,6 +146,17 @@ class Board(object):
 			string += '\n'
 		print string
 
+	def makeString(self):
+		# Print out board
+		string = ''
+		for i in range(x):
+			for j in range(y):
+				if self.board[i][j] != ' ':
+					string += str(self.board[i][j].name)
+				else:
+					string += 'X'
+		return string
+
 board = Board(y, x)
 
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
@@ -165,32 +175,31 @@ q = Queue.Queue()
 q.put(board)
 
 boardCopy = board.copyBoard()
-boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
+#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
 
 boardSet = set([])
-boardSet.add(boardCopy)
+boardCopyString = boardCopy.makeString()
+boardSet.add(boardCopyString)
 
 while boardCopy.checkWin() != True:
 	initialBoard = q.get()
 	print "Initial Board"
 	initialBoard.printBoard()
-	#board.board = list(board.board)
 	movesList = initialBoard.checkPossibleMoves()
-	print "movesList: ", movesList
+	#print "movesList: ", movesList
 	for move in range(len(movesList)):
 		boardCopy = initialBoard.copyBoard()
 		
 		boardCopy.moveCar(movesList[move][0], movesList[move][1])
 
-		boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
-		if boardCopy not in boardSet:
-			boardSet.add(boardCopy)
+		#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
+		boardCopyString = boardCopy.makeString()
+
+		if boardCopyString not in boardSet:
+			boardSet.add(boardCopyString)
 			boardCopy.board = list([list(l) for l in boardCopy.board])
 			q.put(boardCopy)
-			print len(boardSet)
-	steps+=1
-
-print steps
+			print boardSet
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
