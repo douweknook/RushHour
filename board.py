@@ -13,6 +13,8 @@ import Queue
 # Define board dimensions
 y = 6
 x = 6
+xWin = 5
+yWin = 2
 
 class Car(object):
 	"""Class that contains a car object"""
@@ -32,6 +34,7 @@ class Board(object):
 	def __init__(self, y, x):
 		self.y = y
 		self.x = x
+		self.parent = None
 		self.board = []
 		for row in range(self.y):
 			self.board.append([])
@@ -59,22 +62,16 @@ class Board(object):
 		# Move car on board
 		if car.direction is 'h':
 			for l in range(car.length):
-				self.board[y][x + l] = ' '			
-		else:
-			for l in range(car.length):
-				self.board[y + l][x] = ' '		
-
-		if car.direction == 'h':
-			x += amount
-		else:
-			y += amount	
-			
-		if car.direction == 'h':
+				self.board[y][x + l] = ' '
+			x += amount			
 			for l in range(car.length):
 				self.board[y][x + l] = car
 		else:
 			for l in range(car.length):
-				self.board[y + l][x] = car
+				self.board[y + l][x] = ' '		
+			y += amount	
+			for l in range(car.length):
+				self.board[y + l][x] = car			
 
 	def solve(self):
 		# Check all possible moves for current board	
@@ -94,7 +91,8 @@ class Board(object):
 									boardCopy.moveCar(car, i-col, row, col)
 									if boardCopy not in boardSet:
 										boardSet.add(boardCopy)
-										boardCopy.checkWin()
+										if boardCopy.checkWin():
+											return True
 										q.put(boardCopy)
 								else:
 									break
@@ -104,7 +102,8 @@ class Board(object):
 									boardCopy.moveCar(car, j-(col+(car.length-1)), row, col)
 									if boardCopy not in boardSet:
 										boardSet.add(boardCopy)
-										boardCopy.checkWin()
+										if boardCopy.checkWin():
+											return True
 										q.put(boardCopy)
 								else:
 									break
@@ -115,7 +114,8 @@ class Board(object):
 									boardCopy.moveCar(car, i-row, row, col)
 									if boardCopy not in boardSet:
 										boardSet.add(boardCopy)
-										boardCopy.checkWin()
+										if boardCopy.checkWin():
+											return True
 										q.put(boardCopy)
 								else:
 									break
@@ -125,22 +125,23 @@ class Board(object):
 									boardCopy.moveCar(car, j-(row+(car.length-1)), row, col)
 									if boardCopy not in boardSet:
 										boardSet.add(boardCopy)
-										boardCopy.checkWin()
+										if boardCopy.checkWin():
+											return True
 										q.put(boardCopy)
 								else:
 									break
-		return
+		return False
 
 	def copyBoard(self):
 		# Make a copy of the board
-		return copy.deepcopy(self)
+		tempCopy = copy.deepcopy(self)
+		tempCopy.parent = self
+		return tempCopy
 
 	def checkWin(self):
 		# Check if game is won
-		if self.board[2][5] != ' ':
-			if self.board[2][5].name == 0:
-				print "	WIN!"
-				exit()
+		if self.board[yWin][xWin] != ' ':
+			if self.board[yWin][xWin].name == 0:
 				return True
 			else:
 				return False
@@ -163,6 +164,7 @@ class Board(object):
 
 board = Board(y, x)
 
+'''
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
 board.addCar(1, 2, 'h', 0, 3)
 board.addCar(2, 3, 'v', 0, 2)
@@ -172,22 +174,39 @@ board.addCar(5, 2, 'h', 4, 1)
 board.addCar(6, 3, 'v', 3, 3)
 board.addCar(7, 2, 'h', 3, 4)
 board.addCar(8, 2, 'h', 5, 4)
+'''
+
+board.addCar(0, 2, 'h', 2, 2)
+board.addCar(1, 2, 'h', 0, 2)
+board.addCar(2, 2, 'h', 0, 4)
+board.addCar(3, 2, 'h', 1, 1)
+board.addCar(4, 2, 'h', 1, 3)
+board.addCar(5, 2, 'v', 2, 4)
+board.addCar(6, 3, 'v', 1, 5)
+board.addCar(7, 2, 'h', 3, 0)
+board.addCar(8, 2, 'h', 3, 2)
+board.addCar(9, 2, 'v', 4, 0)
+board.addCar(10, 2, 'v', 4, 3)
+board.addCar(11, 2, 'h', 4, 4)
+board.addCar(12, 2, 'h', 5,4)
+
 
 q = Queue.Queue()
 q.put(board)
 
 boardCopy = board.copyBoard()
-#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
 
 boardSet = set([])
 boardSet.add(boardCopy)
 
-while boardCopy.checkWin() != True:
+while True:
 #for i in range(10):
 	initialBoard = q.get()
-	#initialBoard.printBoard()
-	initialBoard.solve()
-	print len(boardSet)
+	print "loop done"
+	if initialBoard.solve():
+		initialBoard.printBoard()
+		print "Win!"
+		break
 
 
 # Board representation
