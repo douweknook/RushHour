@@ -39,8 +39,6 @@ class Board(object):
 		        	self.board[row].append(' ')
 
 	def __eq__(self, other):		
-		print self.board
-		print other.board
 		return self.board == other.board
 
 	def __hash__(self):
@@ -94,11 +92,9 @@ class Board(object):
 								if self.board[row][i] == ' ':	
 									boardCopy = self.copyBoard()
 									boardCopy.moveCar(car, i-col, row, col)
-									temp = boardCopy.board
-									#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
 									if boardCopy not in boardSet:
 										boardSet.add(boardCopy)
-										boardCopy.board = temp
+										boardCopy.checkWin()
 										q.put(boardCopy)
 								else:
 									break
@@ -106,11 +102,9 @@ class Board(object):
 								if self.board[row][j] == ' ':
 									boardCopy = self.copyBoard()
 									boardCopy.moveCar(car, j-(col+(car.length-1)), row, col)
-									temp = boardCopy.board
-									#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])	
 									if boardCopy not in boardSet:
 										boardSet.add(boardCopy)
-										boardCopy.board = temp
+										boardCopy.checkWin()
 										q.put(boardCopy)
 								else:
 									break
@@ -119,11 +113,9 @@ class Board(object):
 								if self.board[i][col] == ' ':
 									boardCopy = self.copyBoard()									
 									boardCopy.moveCar(car, i-row, row, col)
-									temp = boardCopy.board
-									#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
 									if boardCopy not in boardSet:
 										boardSet.add(boardCopy)
-										boardCopy.board = temp
+										boardCopy.checkWin()
 										q.put(boardCopy)
 								else:
 									break
@@ -131,11 +123,9 @@ class Board(object):
 								if self.board[j][col] == ' ':
 									boardCopy = self.copyBoard()
 									boardCopy.moveCar(car, j-(row+(car.length-1)), row, col)
-									temp = boardCopy.board
-									#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])	
 									if boardCopy not in boardSet:
 										boardSet.add(boardCopy)
-										boardCopy.board = temp
+										boardCopy.checkWin()
 										q.put(boardCopy)
 								else:
 									break
@@ -149,7 +139,8 @@ class Board(object):
 		# Check if game is won
 		if self.board[2][5] != ' ':
 			if self.board[2][5].name == 0:
-				print "	WIN!!!"
+				print "	WIN!"
+				exit()
 				return True
 			else:
 				return False
@@ -196,7 +187,7 @@ while boardCopy.checkWin() != True:
 	initialBoard = q.get()
 	#initialBoard.printBoard()
 	initialBoard.solve()
-	print "loop done"
+	print len(boardSet)
 
 
 # Board representation
