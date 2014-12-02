@@ -38,11 +38,14 @@ class Board(object):
 		    	for col in range(self.x):
 		        	self.board[row].append(' ')
 
-	def __eq__(self, other):
+	def __eq__(self, other):		
+		print self.board
+		print other.board
 		return self.board == other.board
 
 	def __hash__(self):
-		return hash(self.board)
+		b = tuple([tuple(l) for l in self.board])
+		return hash(b)
 
 	def addCar(self, name, length, direction, y, x):
 		# Add a car to the board
@@ -56,32 +59,27 @@ class Board(object):
 	
 	def moveCar(self, car, amount, y, x):
 		# Move car on board
-		
-		# remove car from board
 		if car.direction is 'h':
 			for l in range(car.length):
-				self.board[y][x + l] = ' '
+				self.board[y][x + l] = ' '			
 		else:
 			for l in range(car.length):
-				self.board[y + l][x] = ' '
+				self.board[y + l][x] = ' '		
 
-		# update car.x/car.y
 		if car.direction == 'h':
 			x += amount
-		if car.direction == 'v':
-			y += amount
-
-		# redraw car
-		if car.direction is 'h':
+		else:
+			y += amount	
+			
+		if car.direction == 'h':
 			for l in range(car.length):
 				self.board[y][x + l] = car
-		if car.direction is 'v':
+		else:
 			for l in range(car.length):
 				self.board[y + l][x] = car
 
-	def checkPossibleMoves(self):
-		# Check all possible moves for current board
-		movesList = []		
+	def solve(self):
+		# Check all possible moves for current board	
 		carnames = []
 		for row in range(y):
 			for col in range(x):
@@ -92,28 +90,56 @@ class Board(object):
 					else:
 						carnames.append(car.name)
 						if car.direction == 'h':
-							for i in range(col-1, -1, -1): #0 is aangepast van -1
+							for i in range(col-1, -1, -1):
 								if self.board[row][i] == ' ':	
-									movesList.append([car, i-col, row, col])
+									boardCopy = self.copyBoard()
+									boardCopy.moveCar(car, i-col, row, col)
+									temp = boardCopy.board
+									#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
+									if boardCopy not in boardSet:
+										boardSet.add(boardCopy)
+										boardCopy.board = temp
+										q.put(boardCopy)
 								else:
 									break
 							for j in range(col+car.length, x):
 								if self.board[row][j] == ' ':
-									movesList.append([car, j-(col+(car.length-1)), row, col])
+									boardCopy = self.copyBoard()
+									boardCopy.moveCar(car, j-(col+(car.length-1)), row, col)
+									temp = boardCopy.board
+									#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])	
+									if boardCopy not in boardSet:
+										boardSet.add(boardCopy)
+										boardCopy.board = temp
+										q.put(boardCopy)
 								else:
 									break
 						if car.direction == 'v':
-							for i in range(row-1, -1, -1): #same as aboveee
+							for i in range(row-1, -1, -1):
 								if self.board[i][col] == ' ':
-									movesList.append([car, i-row, row, col])
+									boardCopy = self.copyBoard()									
+									boardCopy.moveCar(car, i-row, row, col)
+									temp = boardCopy.board
+									#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
+									if boardCopy not in boardSet:
+										boardSet.add(boardCopy)
+										boardCopy.board = temp
+										q.put(boardCopy)
 								else:
 									break
 							for j in range(row+car.length, y):
 								if self.board[j][col] == ' ':
-									movesList.append([car, j-(row+(car.length-1)), row, col])
+									boardCopy = self.copyBoard()
+									boardCopy.moveCar(car, j-(row+(car.length-1)), row, col)
+									temp = boardCopy.board
+									#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])	
+									if boardCopy not in boardSet:
+										boardSet.add(boardCopy)
+										boardCopy.board = temp
+										q.put(boardCopy)
 								else:
 									break
-		return movesList
+		return
 
 	def copyBoard(self):
 		# Make a copy of the board
@@ -144,17 +170,6 @@ class Board(object):
 			string += '\n'
 		print string
 
-	def makeString(self):
-		# Print out board
-		string = ''
-		for i in range(x):
-			for j in range(y):
-				if self.board[i][j] != ' ':
-					string += str(self.board[i][j].name)
-				else:
-					string += 'X'
-		return string
-
 board = Board(y, x)
 
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
@@ -167,31 +182,21 @@ board.addCar(6, 3, 'v', 3, 3)
 board.addCar(7, 2, 'h', 3, 4)
 board.addCar(8, 2, 'h', 5, 4)
 
-
-# Add board to Queue
 q = Queue.Queue()
 q.put(board)
 
 boardCopy = board.copyBoard()
-boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
+#boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
 
 boardSet = set([])
 boardSet.add(boardCopy)
 
 while boardCopy.checkWin() != True:
+#for i in range(10):
 	initialBoard = q.get()
-	movesList = initialBoard.checkPossibleMoves()
-	for move in range(len(movesList)):
-		boardCopy = initialBoard.copyBoard()
-		
-		boardCopy.moveCar(movesList[move][0], movesList[move][1], movesList[move][2], movesList[move][3])
-		temp = boardCopy.board
-		boardCopy.board = tuple([tuple(l) for l in boardCopy.board])
-		if boardCopy not in boardSet:
-			boardSet.add(boardCopy)
-			boardCopy.board = temp
-			q.put(boardCopy)
-
+	#initialBoard.printBoard()
+	initialBoard.solve()
+	print "loop done"
 
 
 # Board representation
