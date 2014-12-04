@@ -30,5 +30,16 @@ def draw():
 					w = Label(root, bg=colors[board.board.board[j][i].name], text=str(board.board.board[j][i].name)) 
 					w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
 
+<<<<<<< Updated upstream
 draw()
+=======
+<<<<<<< Updated upstream
+for board in board.parentBoards:
+	draw(board)
+	
+=======
+
+draw()
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 root.mainloop()

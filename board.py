@@ -1,3 +1,4 @@
+
 # Rush Hour
 # board.py
 #
@@ -13,8 +14,10 @@ import Queue
 # Define board dimensions
 y = 6
 x = 6
+
 xWin = 5
 yWin = 2
+
 
 class Car(object):
 	"""Class that contains a car object"""
@@ -28,6 +31,7 @@ class Car(object):
 
 	def __eq__(self, other):
 		return isinstance(other, Car) and self.name == other.name
+
 
 class Board(object):
 	"""Class that contains a board object"""
@@ -58,6 +62,7 @@ class Board(object):
 			for l in range(length):
 				self.board[y + l][x] = car
 	
+
 	def moveCar(self, car, amount, y, x):
 		# Move car on board
 		if car.direction is 'h':
@@ -134,9 +139,15 @@ class Board(object):
 
 	def copyBoard(self):
 		# Make a copy of the board
+<<<<<<< Updated upstream
 		tempCopy = copy.deepcopy(self)
 		tempCopy.parent = self
 		return tempCopy
+=======
+		#tempCopy = copy.deepcopy(self)
+		#tempCopy.parent = self
+		return copy.copy(self) #tempCopy
+>>>>>>> Stashed changes
 
 	def checkWin(self):
 		# Check if game is won
@@ -190,11 +201,13 @@ board.addCar(10, 2, 'v', 4, 3)
 board.addCar(11, 2, 'h', 4, 4)
 board.addCar(12, 2, 'h', 5,4)
 '''
+boardSet = set([])
 
 q = Queue.Queue()
 q.put(board)
 
 boardCopy = board.copyBoard()
+
 
 boardSet = set([])
 boardSet.add(boardCopy)
@@ -212,6 +225,11 @@ while True:
 			parentBoard.printBoard()
 		break
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
