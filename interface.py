@@ -31,6 +31,7 @@ def draw():
 					w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 draw()
 =======
 <<<<<<< Updated upstream
@@ -41,5 +42,9 @@ for board in board.parentBoards:
 
 draw()
 >>>>>>> Stashed changes
+>>>>>>> Stashed changes
+=======
+
+draw()
 >>>>>>> Stashed changes
 root.mainloop()
