@@ -91,14 +91,16 @@ class Board(object):
 								if self.board[row][i] == ' ':	
 									boardCopy = self.copyBoard()
 									boardCopy.moveCar(car, i-col, row, col) #moveCar(car, amount, y, x)
-									boardCopy.addToQueue()
+									if boardCopy.addToQueue():
+										return True
 								else:
 									break
 							for j in range(col+car.length, x):
 								if self.board[row][j] == ' ':
 									boardCopy = self.copyBoard()
 									boardCopy.moveCar(car, j-(col+(car.length-1)), row, col)
-									boardCopy.addToQueue()
+									if boardCopy.addToQueue():
+										return True
 								else:
 									break
 						else: #direction = 'v'
@@ -106,14 +108,16 @@ class Board(object):
 								if self.board[i][col] == ' ':
 									boardCopy = self.copyBoard()									
 									boardCopy.moveCar(car, i-row, row, col)
-									boardCopy.addToQueue()
+									if boardCopy.addToQueue():
+										return True
 								else:
 									break
 							for j in range(row+car.length, y):
 								if self.board[j][col] == ' ':
 									boardCopy = self.copyBoard()
 									boardCopy.moveCar(car, j-(row+(car.length-1)), row, col)
-									boardCopy.addToQueue()
+									if boardCopy.addToQueue():
+										return True
 								else:
 									break
 		return False
@@ -123,11 +127,11 @@ class Board(object):
 			boardSet.add(self)
 			if self.checkWin():
 				return True
-			else:
-				q.put(self)
+			q.put(self)
+			return False
 
 	def copyBoard(self):
-		
+
 		# Make a copy of the board
 		#tempCopy = copy.deepcopy(self)
 		#tempCopy.parent = self
@@ -136,10 +140,7 @@ class Board(object):
 	def checkWin(self):
 		# Check if game is won
 		if self.board[yWin][xWin] != ' ':
-			if self.board[yWin][xWin].name == 0:
-				return True
-			else:
-				return False
+			return self.board[yWin][xWin].name == 0
 		else:
 			return False
 
@@ -167,8 +168,8 @@ board.addCar(3, 3, 'v', 0, 5)
 board.addCar(4, 2, 'v', 4, 0)
 board.addCar(5, 2, 'h', 4, 1)
 board.addCar(6, 3, 'v', 3, 3)
-board.addCar(7, 2, 'h', 3, 4)
-board.addCar(8, 2, 'h', 5, 4)
+#board.addCar(7, 2, 'h', 3, 4)
+#board.addCar(8, 2, 'h', 5, 4)
 
 '''
 board.addCar(0, 2, 'h', 2, 2)
@@ -202,13 +203,15 @@ while True:
 	print "loop done"
 	if initialBoard.solve():
 		print "Win!"
+		'''
 		initialBoard.printBoard()
 		parentBoard = initialBoard.parent
 		while parentBoard.parent != None:
 			parentBoard = parentBoard.parent
 			parentBoard.printBoard()
 		break
-
+		'''
+		
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
 # - - - - - - - - - - - - - - - - - 
