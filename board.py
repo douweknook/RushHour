@@ -164,7 +164,7 @@ class Board(object):
 
 board = Board(y, x)
 
-'''
+
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
 board.addCar(1, 2, 'h', 0, 3)
 board.addCar(2, 3, 'v', 0, 2)
@@ -174,8 +174,8 @@ board.addCar(5, 2, 'h', 4, 1)
 board.addCar(6, 3, 'v', 3, 3)
 board.addCar(7, 2, 'h', 3, 4)
 board.addCar(8, 2, 'h', 5, 4)
-'''
 
+'''
 board.addCar(0, 2, 'h', 2, 2)
 board.addCar(1, 2, 'h', 0, 2)
 board.addCar(2, 2, 'h', 0, 4)
@@ -189,7 +189,7 @@ board.addCar(9, 2, 'v', 4, 0)
 board.addCar(10, 2, 'v', 4, 3)
 board.addCar(11, 2, 'h', 4, 4)
 board.addCar(12, 2, 'h', 5,4)
-
+'''
 
 q = Queue.Queue()
 q.put(board)
@@ -204,8 +204,12 @@ while True:
 	initialBoard = q.get()
 	print "loop done"
 	if initialBoard.solve():
-		initialBoard.printBoard()
 		print "Win!"
+		initialBoard.printBoard()
+		parentBoard = initialBoard.parent
+		while parentBoard.parent != None:
+			parentBoard = parentBoard.parent
+			parentBoard.printBoard()
 		break
 
 
