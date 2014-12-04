@@ -25,13 +25,6 @@ class Car(object):
 		self.length = length
 		self.direction = direction
 
-	#def __hash__(self):
-	#	return hash(self.name)
-
-	#def __eq__(self, other):
-	#	return isinstance(other, Car) and self.name == other.name
-
-
 class Board(object):
 	"""Class that contains a board object"""
 	def __init__(self, y, x):
@@ -41,15 +34,14 @@ class Board(object):
 		self.board = []
 		for row in range(self.y):
 			self.board.append([])
-		    	for col in range(self.x):
-		        	self.board[row].append(' ')
+			for col in range(self.x):
+				self.board[row].append(' ')
 
 	def __eq__(self, other):		
 		return self.board == other.board
 
 	def __hash__(self):
-		b = tuple([tuple(l) for l in self.board])
-		return hash(b)
+		return hash(self.board)
 
 	def addCar(self, name, length, direction, y, x):
 		# Add a car to the board
@@ -62,23 +54,59 @@ class Board(object):
 				self.board[y + l][x] = car
 	
 
-	def moveCar(self, car, amount, y, x):
-		# Move car on board
-		if car.direction is 'h':
-			for l in range(car.length):
-				self.board[y][x + l] = ' '
-			x += amount			
-			for l in range(car.length):
-				self.board[y][x + l] = car
+	def moveCarHorizontal(self, direction, length, y, x):
+		# Create copy of board with horizontal move made
+		tuple2 = []
+		L = range(6)
+		if direction == 'left':
+			L[x+length] = x
+			L[x] = x+length
 		else:
-			for l in range(car.length):
-				self.board[y + l][x] = ' '		
-			y += amount	
-			for l in range(car.length):
-				self.board[y + l][x] = car			
+			L[x-length] = x
+			L[x] = x-length
+		for i in L:
+			tuple2.append(self.board[y][i])
+		tuple2 = tuple(tuple2)
+		boardCopy = copy.copy(self)
+		boardCopy.board = []
+		for i in range(6):
+			if i != y:
+				boardCopy.board.append(self.board[i])
+			else:
+				boardCopy.board.append(tuple2)
+		boardCopy.board = tuple(boardCopy.board)
+		return boardCopy
 
-	def solve(self):
-		# Check all possible moves for current board	
+	def moveCarVertical(self, direction, length, y1, y2):
+		# Create copy of board with vertical move made
+		print y1, y2
+		tuple3 = []
+		tuple4 = []
+		L = range(6)
+		for i in L:
+			tuple3.append(self.board[y2][i])
+			tuple4.append(self.board[y1][i])
+		tuple3 = tuple(tuple3)
+		tuple4 = tuple(tuple4)
+
+		print tuple3
+		print tuple4
+
+		boardCopy = copy.copy(self)
+		boardCopy.board = []
+		for i in range(6):
+			if i == y1:
+				boardCopy.board.append(tuple3)
+			elif i == y2:
+				boardCopy.board.append(tuple4)
+			else:
+				boardCopy.board.append(self.board[i])
+		boardCopy.board = tuple(boardCopy.board)
+		return boardCopy
+
+
+	def checkBoard(self):
+		# check board for cars
 		carnames = set([])
 		for row in range(y):
 			for col in range(x):
@@ -87,55 +115,74 @@ class Board(object):
 					if car.name not in carnames:
 						carnames.add(car.name)
 						if car.direction == 'h':
-							for i in range(col-1, -1, -1):
-								if self.board[row][i] == ' ':	
-									boardCopy = self.copyBoard()
-									boardCopy.moveCar(car, i-col, row, col) #moveCar(car, amount, y, x)
-									if boardCopy.addToQueue():
-										return True
-								else:
-									break
-							for j in range(col+car.length, x):
-								if self.board[row][j] == ' ':
-									boardCopy = self.copyBoard()
-									boardCopy.moveCar(car, j-(col+(car.length-1)), row, col)
-									if boardCopy.addToQueue():
-										return True
-								else:
-									break
-						else: #direction = 'v'
-							for i in range(row-1, -1, -1):
-								if self.board[i][col] == ' ':
-									boardCopy = self.copyBoard()									
-									boardCopy.moveCar(car, i-row, row, col)
-									if boardCopy.addToQueue():
-										return True
-								else:
-									break
-							for j in range(row+car.length, y):
-								if self.board[j][col] == ' ':
-									boardCopy = self.copyBoard()
-									boardCopy.moveCar(car, j-(row+(car.length-1)), row, col)
-									if boardCopy.addToQueue():
-										return True
-								else:
-									break
-		return False
+							self.checkMoveHorizontal(car, row, col)
+						else: #direction == 'v'
+							self.checkMoveVertical(car, row, col)
+							
+	def checkMoveHorizontal(self, car, row, col):
+		# check moves for found car (if direction is horizontal)
+		for i in range(col-1, -1, -1):
+			if self.board[row][i] == ' ':
+				if i == col-2:
+					print "MOVE LEFT 1"
+					boardCopy = self.moveCarHorizontal('left', car.length, row, i)
+					boardCopy.addToQueue()
+				else:
+					print "MOVE LEFT 2"
+					boardCopy = boardCopy.moveCarHorizontal('left', car.length, row, i)
+					boardCopy.addToQueue()
+			else:
+				break
+		for j in range(col+car.length, x):
+			if self.board[row][j] == ' ':
+				if j == col+car.length+1:
+					print "MOVE RIGHT 1"
+					boardCopy = self.moveCarHorizontal('right', car.length, row, j)
+					boardCopy.addToQueue()
+				else:
+					print "MOVE RIGHT 2"
+					boardCopy = boardCopy.moveCarHorizontal('right', car.length, row, j)
+					boardCopy.addToQueue()
+			else:
+				break
+	def checkMoveVertical(self, car, row, col):
+		# check moves for found car (if direction is vertical)
+		for i in range(row-1, -1, -1):
+			if self.board[i][col] == ' ':
+				if i == row-1:
+					print "MOVE UP 1"
+					boardCopy = self.moveCarVertical('up', car.length, i, i+car.length)
+					boardCopy.addToQueue()
+				else:
+					print "MOVE UP 2"
+					boardCopy = boardCopy.moveCarVertical('up', car.length, i, i+car.length)
+					boardCopy.addToQueue()
+			else:
+				break
+		for j in range(row+car.length, y):
+			if self.board[j][col] == ' ':
+				if j == row+car.length:
+					print "MOVE DOWN 1"
+					boardCopy = self.moveCarVertical('down', car.length, j, j-car.length)
+					boardCopy.printBoard()
+					boardCopy.addToQueue()
+				else:
+					print "MOVE DOWN 2"
+					boardCopy = boardCopy.moveCarVertical('down', car.length, j, j-car.length)
+					boardCopy.printBoard()
+					boardCopy.addToQueue()
+			else:
+				break
 
 	def addToQueue(self):
+		# add copy of board to Queue, if unique copy
 		if self not in boardSet:
 			boardSet.add(self)
 			if self.checkWin():
 				return True
 			q.put(self)
 			return False
-
-	def copyBoard(self):
-
-		# Make a copy of the board
-		#tempCopy = copy.deepcopy(self)
-		#tempCopy.parent = self
-		return copy.deepcopy(self)
+		return False
 
 	def checkWin(self):
 		# Check if game is won
@@ -168,8 +215,8 @@ board.addCar(3, 3, 'v', 0, 5)
 board.addCar(4, 2, 'v', 4, 0)
 board.addCar(5, 2, 'h', 4, 1)
 board.addCar(6, 3, 'v', 3, 3)
-#board.addCar(7, 2, 'h', 3, 4)
-#board.addCar(8, 2, 'h', 5, 4)
+board.addCar(7, 2, 'h', 3, 4)
+board.addCar(8, 2, 'h', 5, 4)
 
 '''
 board.addCar(0, 2, 'h', 2, 2)
@@ -186,32 +233,35 @@ board.addCar(10, 2, 'v', 4, 3)
 board.addCar(11, 2, 'h', 4, 4)
 board.addCar(12, 2, 'h', 5,4)
 '''
-boardSet = set([])
+
+board.board = tuple([tuple(l) for l in board.board])
 
 q = Queue.Queue()
 q.put(board)
-
-boardCopy = board.copyBoard()
-
-
 boardSet = set([])
-boardSet.add(boardCopy)
+boardSet.add(board)
 
+board.printBoard()
+board.checkBoard()
+
+print len(boardSet), boardSet
+
+'''
 while True:
 #for i in range(10):
 	initialBoard = q.get()
 	print "loop done"
 	if initialBoard.solve():
 		print "Win!"
-		'''
 		initialBoard.printBoard()
 		parentBoard = initialBoard.parent
 		while parentBoard.parent != None:
 			parentBoard = parentBoard.parent
 			parentBoard.printBoard()
-		break
 		'''
+		#break
 		
+
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
 # - - - - - - - - - - - - - - - - - 
