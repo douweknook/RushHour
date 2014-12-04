@@ -9,6 +9,7 @@
 
 import copy
 import Queue
+import cProfile
 
 # Define board dimensions
 y = 6
@@ -38,8 +39,8 @@ class Board(object):
 		self.board = []
 		for row in range(self.y):
 			self.board.append([])
-		    	for col in range(self.x):
-		        	self.board[row].append(' ')
+			for col in range(self.x):
+				self.board[row].append(' ')
 
 	def __eq__(self, other):		
 		return self.board == other.board
@@ -134,9 +135,9 @@ class Board(object):
 
 	def copyBoard(self):
 		# Make a copy of the board
-		tempCopy = copy.deepcopy(self)
-		tempCopy.parent = self
-		return tempCopy
+		#tempCopy = copy.deepcopy(self)
+		#tempCopy.parent = self
+		return copy.deepcopy(self) #tempCopy
 
 	def checkWin(self):
 		# Check if game is won
@@ -199,19 +200,27 @@ boardCopy = board.copyBoard()
 boardSet = set([])
 boardSet.add(boardCopy)
 
-while True:
-#for i in range(10):
+#while True:
+for i in range(1000):
 	initialBoard = q.get()
 	print "loop done"
 	if initialBoard.solve():
 		print "Win!"
-		initialBoard.printBoard()
+		'''
+		parentBoards = []
+		parentBoards.append(initialBoard)
+		initialBoard.printBoard() #print
 		parentBoard = initialBoard.parent
+		parentBoards.append(parentBoard)
+		parentBoard.printBoard() #print
 		while parentBoard.parent != None:
 			parentBoard = parentBoard.parent
 			parentBoard.printBoard()
+			parentBoards.append(parentBoard)
+			'''
 		break
 
+print parentBoards
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
