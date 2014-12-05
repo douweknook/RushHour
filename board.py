@@ -10,13 +10,14 @@
 
 import copy
 import Queue
+import cProfile
 
 # Define board dimensions
 y = 6
 x = 6
 xWin = 5
 yWin = 2
-
+isFinished = False
 
 class Car(object):
 	"""Class that contains a car object"""
@@ -68,6 +69,7 @@ class Board(object):
 			tuple2.append(self.board[y][i])
 		tuple2 = tuple(tuple2)
 		boardCopy = copy.copy(self)
+		boardCopy.parent = self
 		boardCopy.board = []
 		for i in range(6):
 			if i != y:
@@ -93,6 +95,7 @@ class Board(object):
 		tuple4 = tuple(tuple4)
 
 		boardCopy = copy.copy(self)
+		boardCopy.parent = self
 		boardCopy.board = []
 		for i in range(6):
 			if i == y1:
@@ -154,14 +157,13 @@ class Board(object):
 			if self.board[i][col] == ' ':
 				if i == row-1:
 					#print "MOVE UP 1"
-					boardCopy = self.moveCarVertical('up', car.length, i, i+car.length, col)
-					if boardCopy.addToQueue():
-						return True
+					boardCopy = self.moveCarVertical('up', car.length, i, i+car.length, col)	
 				else:
 					#print "MOVE UP 2"
 					boardCopy = boardCopy.moveCarVertical('up', car.length, i, i+car.length, col)
-					if boardCopy.addToQueue():
-						return True
+				
+				if boardCopy.addToQueue():
+					return True
 			else:
 				break
 		for j in range(row+car.length, y):
@@ -169,15 +171,14 @@ class Board(object):
 				if j == row+car.length:
 					#print "MOVE DOWN 1"
 					boardCopy = self.moveCarVertical('down', car.length, j, j-car.length, col)
-					if boardCopy.addToQueue():
-						return True
 				else:
 					#print "MOVE DOWN 2"
 					boardCopy = boardCopy.moveCarVertical('down', car.length, j, j-car.length, col)
-					if boardCopy.addToQueue():
-						return True
+				if boardCopy.addToQueue():
+					return True
 			else:
 				break
+
 
 	def addToQueue(self):
 		# add copy of board to Queue, if unique copy
@@ -187,10 +188,13 @@ class Board(object):
 				return True
 			q.put(self)
 
+
 	def checkWin(self):
 		# Check if game is won
 		if self.board[yWin][xWin] != ' ':
 			if self.board[yWin][xWin].name == 0:
+				global isFinished
+				isFinished = True 
 				print "WIN!"
 				return True
 
@@ -210,7 +214,7 @@ class Board(object):
 
 board = Board(y, x)
 
-
+'''
 board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
 board.addCar(1, 2, 'h', 0, 3)
 board.addCar(2, 3, 'v', 0, 2)
@@ -235,7 +239,8 @@ board.addCar(9, 2, 'v', 4, 0)
 board.addCar(10, 2, 'v', 4, 3)
 board.addCar(11, 2, 'h', 4, 4)
 board.addCar(12, 2, 'h', 5,4)
-'''
+ 
+
 
 board.board = tuple([tuple(l) for l in board.board])
 
@@ -245,24 +250,27 @@ boardSet = set([])
 boardSet.add(board)
 
 board.printBoard()
-
+steps = 0
 while True:
-#for i in range(10):
+#for i in range(1000):
+
 	initialBoard = q.get()
 	print "loop done"
-	if initialBoard.checkBoard():
+	initialBoard.checkBoard()
+	if isFinished:
 		print "Win!"
 		#initialBoard.printBoard()
-		'''
-		parentBoard = initialBoard.parent
-		while parentBoard.parent != None:
-			parentBoard = parentBoard.parent
+		
+		parentBoard = initialBoard
+		while parentBoard != None:
 			parentBoard.printBoard()
-		'''
+			steps += 1
+			parentBoard = parentBoard.parent
+		print steps
 		break
-	print len(boardSet)
 
 #print len(boardSet)
+
 
 # Board representation
 # 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5
