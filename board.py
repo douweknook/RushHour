@@ -55,7 +55,7 @@ class Board(object):
 				self.board[y + l][x] = car
 	
 
-	def moveCarHorizontal(self, direction, length, y, x):
+	def moveCarHorizontal(self, direction, length, y, x, parent):
 		# Create copy of board with horizontal move made
 		tuple2 = []
 		L = range(X)
@@ -69,7 +69,7 @@ class Board(object):
 			tuple2.append(self.board[y][i])
 		tuple2 = tuple(tuple2)
 		boardCopy = copy.copy(self)
-		boardCopy.parent = self
+		boardCopy.parent = parent
 		boardCopy.board = []
 		for i in range(X):
 			if i != y:
@@ -79,7 +79,7 @@ class Board(object):
 		boardCopy.board = tuple(boardCopy.board)
 		return boardCopy
 
-	def moveCarVertical(self, direction, length, y1, y2, x):
+	def moveCarVertical(self, direction, length, y1, y2, x, parent):
 		# Create copy of board with vertical move made
 		#print x
 		tuple3 = []
@@ -97,7 +97,7 @@ class Board(object):
 
 
 		boardCopy = copy.copy(self)
-		boardCopy.parent = self
+		boardCopy.parent = parent
 		boardCopy.board = []
 		for i in range(Y):
 			if i == y1:
@@ -120,43 +120,43 @@ class Board(object):
 					if car.name not in carnames:
 						carnames.add(car.name)
 						if car.direction == 'h':
-							if self.checkMoveHorizontal(car, row, col):
+							if self.checkMoveHorizontal(car, row, col, self):
 								return True
 						else: #direction == 'v'
-							if self.checkMoveVertical(car, row, col):
+							if self.checkMoveVertical(car, row, col, self):
 								return True
 
-	def checkMoveHorizontal(self, car, row, col):
+	def checkMoveHorizontal(self, car, row, col, parent):
 		# check moves for found car (if direction is horizontal)
 		for i in range(col-1, -1, -1):
 			if self.board[row][i] == ' ':
 				if i == col-1:
-					boardCopy = self.moveCarHorizontal('left', car.length, row, i)
+					boardCopy = self.moveCarHorizontal('left', car.length, row, i, parent)
 					boardCopy.addToQueue()
 				else:
-					boardCopy = boardCopy.moveCarHorizontal('left', car.length, row, i)
+					boardCopy = boardCopy.moveCarHorizontal('left', car.length, row, i, parent)
 					boardCopy.addToQueue()
 			else:
 				break
 		for j in range(col+car.length, X):
 			if self.board[row][j] == ' ':
 				if j == col+car.length:
-					boardCopy = self.moveCarHorizontal('right', car.length, row, j)
+					boardCopy = self.moveCarHorizontal('right', car.length, row, j, parent)
 					boardCopy.addToQueue()
 				else:
-					boardCopy = boardCopy.moveCarHorizontal('right', car.length, row, j)
+					boardCopy = boardCopy.moveCarHorizontal('right', car.length, row, j, parent)
 					boardCopy.addToQueue()
 			else:
 				break
 
-	def checkMoveVertical(self, car, row, col):
+	def checkMoveVertical(self, car, row, col, parent):
 		# check moves for found car (if direction is vertical)
 		for i in range(row-1, -1, -1):
 			if self.board[i][col] == ' ':
 				if i == row-1:
-					boardCopy = self.moveCarVertical('up', car.length, i, i+car.length, col)	
+					boardCopy = self.moveCarVertical('up', car.length, i, i+car.length, col, parent)	
 				else:
-					boardCopy = boardCopy.moveCarVertical('up', car.length, i, i+car.length, col)
+					boardCopy = boardCopy.moveCarVertical('up', car.length, i, i+car.length, col, parent)
 				
 				if boardCopy.addToQueue():
 					return True
@@ -165,9 +165,9 @@ class Board(object):
 		for j in range(row+car.length, Y):
 			if self.board[j][col] == ' ':
 				if j == row+car.length:
-					boardCopy = self.moveCarVertical('down', car.length, j, j-car.length, col)
+					boardCopy = self.moveCarVertical('down', car.length, j, j-car.length, col, parent)
 				else:
-					boardCopy = boardCopy.moveCarVertical('down', car.length, j, j-car.length, col)
+					boardCopy = boardCopy.moveCarVertical('down', car.length, j, j-car.length, col, parent)
 				if boardCopy.addToQueue():
 					return True
 			else:
@@ -208,16 +208,16 @@ class Board(object):
 
 board = Board(Y, X)
 
-# # Board 1
-# board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
-# board.addCar(1, 2, 'h', 0, 3)
-# board.addCar(2, 3, 'v', 0, 2)
-# board.addCar(3, 3, 'v', 0, 5)
-# board.addCar(4, 2, 'v', 4, 0)
-# board.addCar(5, 2, 'h', 4, 1)
-# board.addCar(6, 3, 'v', 3, 3)
-# board.addCar(7, 2, 'h', 3, 4)
-# board.addCar(8, 2, 'h', 5, 4)
+# Board 1
+board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
+board.addCar(1, 2, 'h', 0, 3)
+board.addCar(2, 3, 'v', 0, 2)
+board.addCar(3, 3, 'v', 0, 5)
+board.addCar(4, 2, 'v', 4, 0)
+board.addCar(5, 2, 'h', 4, 1)
+board.addCar(6, 3, 'v', 3, 3)
+board.addCar(7, 2, 'h', 3, 4)
+board.addCar(8, 2, 'h', 5, 4)
 
 # # Board 2
 # board.addCar(0, 2, 'h', 2, 2)
@@ -234,20 +234,20 @@ board = Board(Y, X)
 # board.addCar(11, 2, 'h', 4, 4)
 # board.addCar(12, 2, 'h', 5, 4)
 
-# Board 3
-board.addCar(0, 2, 'h', 2, 0)
-board.addCar(1, 2, 'h', 0, 1)
-board.addCar(2, 3, 'h', 0, 3)
-board.addCar(3, 2, 'h', 1, 1)
-board.addCar(4, 2, 'v', 1, 3)
-board.addCar(5, 2, 'h', 1, 4)
-board.addCar(6, 2, 'v', 2, 2)
-board.addCar(7, 2, 'v', 2, 5)
-board.addCar(8, 2, 'h', 3, 0)
-board.addCar(9, 2, 'h', 3, 3)
-board.addCar(10, 2, 'v', 4, 0)
-board.addCar(11, 2, 'v', 4, 2)
-board.addCar(12, 2, 'h', 4, 4)
+# # Board 3
+# board.addCar(0, 2, 'h', 2, 0)
+# board.addCar(1, 2, 'h', 0, 1)
+# board.addCar(2, 3, 'h', 0, 3)
+# board.addCar(3, 2, 'h', 1, 1)
+# board.addCar(4, 2, 'v', 1, 3)
+# board.addCar(5, 2, 'h', 1, 4)
+# board.addCar(6, 2, 'v', 2, 2)
+# board.addCar(7, 2, 'v', 2, 5)
+# board.addCar(8, 2, 'h', 3, 0)
+# board.addCar(9, 2, 'h', 3, 3)
+# board.addCar(10, 2, 'v', 4, 0)
+# board.addCar(11, 2, 'v', 4, 2)
+# board.addCar(12, 2, 'h', 4, 4)
 
 # # Board 4
 # board.addCar('00', 2, 'h', 4, 1)#redcar
@@ -388,18 +388,17 @@ while True:
 	initialBoard = q.get()
 	#print "loop done"
 	#initialBoard.printBoard()
+	#interface.draw(initialBoard)
 	initialBoard.checkBoard()
-
 	if isFinished:
 		print "Win!"
 		#initialBoard.printBoard()
 		
 		parentBoard = initialBoard
 		while parentBoard != None:
-			#parentBoard.printBoard()
-			interface.draw(parentBoard)
+			parentBoard.printBoard()
+			#interface.draw(parentBoard)
 			parents.append(parentBoard)
-			steps += 1
 			parentBoard = parentBoard.parent
 		print steps
 		break
