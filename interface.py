@@ -8,6 +8,11 @@
 # oktober 2014
 
 import board
+<<<<<<< Updated upstream
+=======
+from time import time, sleep
+
+>>>>>>> Stashed changes
 from Tkinter import *
 
 # Create root window
@@ -24,7 +29,18 @@ Grid.columnconfigure(canvasBoard, 0, weight=1)
 Grid.rowconfigure(canvasBoard, 0, weight=1)
 
 # Function to draw the board and cars
+<<<<<<< Updated upstream
 def drawBoard():
+=======
+
+root = Tk()
+
+aboard = board.board
+def draw(self):
+
+	
+
+>>>>>>> Stashed changes
 	colors = ['red', 'yellow', 'light blue', 'pink', 'goldenrod', 'lavender', 'pale green', 'blanched almond', 'green', 
 				'medium sea green', 'dark orange', 'hot pink', 'thistle', 'navy', 'indian red', 'lemin chiffon', 
 				'olive drab', 'sandy brown', 'salmon', 'dark turquoise', 'rosy brown', 'maroon', 'cyan', 
@@ -39,6 +55,7 @@ def drawBoard():
 				w = Label(canvasBoard, bg='grey', text=str(board.board.board[j][i]))
 				w.grid(column=i, row=j, ipadx=25, ipady=25, padx=1, pady=1, sticky=W+E+N+S)
 			else:
+<<<<<<< Updated upstream
 				w = Label(canvasBoard, bg=colors[board.board.board[j][i].name], text=str(board.board.board[j][i].name)) 
 				w.grid(column=i, row=j, ipadx=25, ipady=25, padx=1, pady=1, sticky=W+E+N+S)
 
@@ -47,6 +64,21 @@ def drawSettings():
 
 drawBoard()
 root.mainloop()
+=======
+				w = Label(root, bg=colors[self.board[j][i].name], text=str(self.board[j][i].name)) 
+				w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
+	print ' he'
+	
+	for iboard in board.parents:
+		aboard = iboard	
+		continue
 
+print "hoi"
+root.after(1000, draw(aboard))
+>>>>>>> Stashed changes
 
+# for board in board.parents:
+# 	root.after(1000, draw(board))
+
+root.mainloop()
 
