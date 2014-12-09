@@ -7,34 +7,32 @@
 #
 # oktober 2014
 
-import board
-import random
+#import board
 from Tkinter import *
 
 # Create root window
-root = Tk()
 
-colors = ['red', 'yellow', 'light blue', 'pink', 'goldenrod', 'lavender', 'pale green', 'blanched almond', 'green', 
-			'medium sea green', 'dark orange', 'hot pink', 'thistle', 'navy', 'indian red', 'lemin chiffon', 
-			'olive drab', 'sandy brown', 'salmon', 'dark turquoise', 'rosy brown', 'maroon', 'cyan', 
-			'deep sky blue', 'aquamarine', 'lime green', 'misty rose']
 
 # Function to draw the board and cars
-container = Frame(root)
-container.pack()
 
 def draw(self):
-    	for i in range(board.x):
-			for j in range(board.y):
-				if self.board[j][i] == ' ':
-					w = Label(root, bg='grey25', text=str(self.board[j][i])) 
-					w.grid(column=i, row=j, ipadx='22', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
-				else:
-					w = Label(root, bg=colors[self.board[j][i].name], text=str(self.board[j][i].name)) 
-					w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
+	root = Tk()
 
-board = draw(board.initialBoard)
-root.mainloop()
+	colors = ['red', 'yellow', 'light blue', 'pink', 'goldenrod', 'lavender', 'pale green', 'blanched almond', 'green', 
+				'medium sea green', 'dark orange', 'hot pink', 'thistle', 'navy', 'indian red', 'lemin chiffon', 
+				'olive drab', 'sandy brown', 'salmon', 'dark turquoise', 'rosy brown', 'maroon', 'cyan', 
+				'deep sky blue', 'aquamarine', 'lime green', 'misty rose']
+	
+	for i in range(6):
+		for j in range(6):
+			if self.board[j][i] == ' ':
+				w = Label(root, bg='grey', text=str(self.board[j][i])) 
+				w.grid(column=i, row=j, ipadx='22', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
+			else:
+				w = Label(root, bg=colors[self.board[j][i].name], text=str(self.board[j][i].name)) 
+				w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
+
+	root.mainloop()
 
 
 
