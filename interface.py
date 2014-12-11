@@ -7,23 +7,21 @@
 #
 # oktober 2014
 
-import board
+import board_astar as board
 from Tkinter import *
 
-boardIndex = 0
+boardIndex = len(board.parents)-1
 parentsAmount = len(board.parents)
-currentStep = 0
-print "parents:", parentsAmount
-print "steps", len(board.parents)
-print "configurations:", len(board.boardSet)
+currentStep = -1
+
 # Create root window
 root = Tk()
 root.title("Rush Hour")
 mainframe = Frame(root)
 mainframe.grid(row=0, column=0, sticky=W+E+N+S)
-canvasBoard = Canvas(mainframe, width=250, height=300)
+canvasBoard = Canvas(mainframe)
 canvasBoard.grid(row=0, column=1)
-canvasSettings = Canvas(mainframe, width=100, height=300)
+canvasSettings = Canvas(mainframe)
 canvasSettings.grid(row=0, column=2)
 
 Grid.columnconfigure(canvasBoard, 0, weight=1)
@@ -31,12 +29,12 @@ Grid.rowconfigure(canvasBoard, 0, weight=1)
 
 # Function to draw the board and cars
 def drawBoard(self, canvasBoard):
-	colors = ['red', 'yellow', 'light blue', 'pink', 'goldenrod', 'lavender', 'pale green', 'blanched almond', 'green', 
-				'medium sea green', 'dark orange', 'blue', 'thistle', 'navy', 'indian red', 'lemin chiffon', 
-				'olive drab', 'sandy brown', 'salmon', 'dark turquoise', 'rosy brown', 'maroon', 'cyan', 
-				'deep sky blue', 'aquamarine', 'lime green', 'misty rose']
-	for i in range(6):
-		for j in range(6):
+	colors = ['red', 'yellow', 'light blue', 'pink', 'goldenrod', 'pale green', 'blanched almond', 'green', 
+				'medium sea green', 'dark orange', 'blue', 'indian red', 'olive drab', 'sandy brown', 'salmon', 
+				'dark turquoise', 'rosy brown', 'maroon', 'cyan', 'deep sky blue', 'aquamarine', 'navy', 'lime green', 
+				'misty rose']
+	for i in range(board.X):
+		for j in range(board.Y):
 			if self.board[j][i] == ' ':
 				boardSpace = Canvas(canvasBoard, width=80, height=80, bg="grey90")
 				boardSpace.create_text(40, 40, text=str(self.board[j][i]))
@@ -85,7 +83,7 @@ def updateSteps(self, steps):
 	stepsValue = Label(self, text=steps).grid(row=0, column=1, sticky=W)
 
 def updateConfigurations(self, configurations):
-	configurationsLabel = Label(self, text='Configurations:').grid(row=1, column=0, sticky=W)
+	configurationsLabel = Label(self, text='Configurations found:').grid(row=1, column=0, sticky=W)
 	configurationsValue = Label(self, text=configurations).grid(row=1, column=1, sticky=W)
 
 def updateCurrentStep(self, step):
@@ -101,18 +99,14 @@ def nextBoard():
 	global currentStep
 	if parentsAmount != 0:
 		drawBoard(board.parents[boardIndex], canvasBoard)
-		boardIndex += 1
+		boardIndex -= 1
 		parentsAmount -= 1
 		currentStep += 1
-		drawSettings(canvasSettings, len(board.parents), len(board.boardSet), currentStep)
+		drawSettings(canvasSettings, len(board.parents)-1, len(board.boardSet), currentStep)
 	else:
 		noMoreSteps(canvasSettings)
 
-
-def printout():
-	print "Hello, World!"
-
 #drawBoard(board.initialBoard, canvasBoard)
-drawSettings(canvasSettings, len(board.parents), len(board.boardSet), currentStep)
+drawSettings(canvasSettings, len(board.parents)-1, len(board.boardSet), currentStep)
 
 root.mainloop()
