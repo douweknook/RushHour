@@ -8,77 +8,111 @@
 # oktober 2014
 
 import board
-<<<<<<< Updated upstream
-=======
-from time import time, sleep
-
->>>>>>> Stashed changes
 from Tkinter import *
 
+boardIndex = 0
+parentsAmount = len(board.parents)
+currentStep = 0
+print "parents:", parentsAmount
+print "steps", len(board.parents)
+print "configurations:", len(board.boardSet)
 # Create root window
 root = Tk()
 root.title("Rush Hour")
 mainframe = Frame(root)
 mainframe.grid(row=0, column=0, sticky=W+E+N+S)
-canvasBoard = Canvas(mainframe, width=500, height=300)
-canvasBoard.grid(row=0, column=0)
-canvasSettings = Canvas(mainframe, width=250, height=300)
-canvasSettings.grid(row=0, column=1)
+canvasBoard = Canvas(mainframe, width=250, height=300)
+canvasBoard.grid(row=0, column=1)
+canvasSettings = Canvas(mainframe, width=100, height=300)
+canvasSettings.grid(row=0, column=2)
 
 Grid.columnconfigure(canvasBoard, 0, weight=1)
 Grid.rowconfigure(canvasBoard, 0, weight=1)
 
 # Function to draw the board and cars
-<<<<<<< Updated upstream
-def drawBoard():
-=======
-
-root = Tk()
-
-aboard = board.board
-def draw(self):
-
-	
-
->>>>>>> Stashed changes
+def drawBoard(self, canvasBoard):
 	colors = ['red', 'yellow', 'light blue', 'pink', 'goldenrod', 'lavender', 'pale green', 'blanched almond', 'green', 
-				'medium sea green', 'dark orange', 'hot pink', 'thistle', 'navy', 'indian red', 'lemin chiffon', 
+				'medium sea green', 'dark orange', 'blue', 'thistle', 'navy', 'indian red', 'lemin chiffon', 
 				'olive drab', 'sandy brown', 'salmon', 'dark turquoise', 'rosy brown', 'maroon', 'cyan', 
 				'deep sky blue', 'aquamarine', 'lime green', 'misty rose']
 	for i in range(6):
 		for j in range(6):
-			#boardSpace = Frame(canvasBoard, width=100, height=100)
-			#boardSpace.grid(row=j, column=i, padx=1, pady=1, sticky=W+E+N+S)
-			#boardSpace.columnconfigure(0, weight=2)
-			#boardSpace.rowconfigure(0, weight=2)
-			if board.board.board[j][i] == ' ':
-				w = Label(canvasBoard, bg='grey', text=str(board.board.board[j][i]))
-				w.grid(column=i, row=j, ipadx=25, ipady=25, padx=1, pady=1, sticky=W+E+N+S)
+			if self.board[j][i] == ' ':
+				boardSpace = Canvas(canvasBoard, width=80, height=80, bg="grey90")
+				boardSpace.create_text(40, 40, text=str(self.board[j][i]))
+				boardSpace.grid(row=j, column=i, sticky=W+E+N+S)
+
+				#w = Label(boardSpace, bg='grey', text=str(self.board[j][i]))
+				#w.grid(row = j, column=i, padx=1, pady=1, sticky=W+E+N+S)
 			else:
-<<<<<<< Updated upstream
-				w = Label(canvasBoard, bg=colors[board.board.board[j][i].name], text=str(board.board.board[j][i].name)) 
-				w.grid(column=i, row=j, ipadx=25, ipady=25, padx=1, pady=1, sticky=W+E+N+S)
+				boardSpace = Canvas(canvasBoard, width=80, height=80, bg=colors[self.board[j][i].name])
+				boardSpace.create_text(40, 40, text=str(self.board[j][i].name))
+				boardSpace.grid(row=j, column=i, sticky=W+E+N+S)
+				#w = Label(boardSpace, bg=colors[self.board[j][i].name], text=str(self.board[j][i].name)) 
+				#w.grid(column=i, row=j, padx=1, pady=1, sticky=W+E+N+S)
 
-def drawSettings():
-	stepsLabel = Label(canvasSettings, )
-
-drawBoard()
-root.mainloop()
-=======
-				w = Label(root, bg=colors[self.board[j][i].name], text=str(self.board[j][i].name)) 
-				w.grid(column=i, row=j, ipadx='20', ipady='20', padx=1, pady=1, sticky=W+E+N+S)
-	print ' he'
+def drawSettings(self, steps, configurations, currentStep):
+	returnValuesFrame = Frame(self, width=100, height=100, padx=25, pady=25)
+	returnValuesFrame.grid(row=0, column=0, sticky=W)
 	
-	for iboard in board.parents:
-		aboard = iboard	
-		continue
+	updateSteps(returnValuesFrame, steps)
+	updateConfigurations(returnValuesFrame, configurations)
+	updateCurrentStep(returnValuesFrame, currentStep)
+	nextBoardButton = Button(returnValuesFrame, text='Show Next Step', command=nextBoard).grid(row=4, column=0, pady=25)
 
-print "hoi"
-root.after(1000, draw(aboard))
->>>>>>> Stashed changes
+	# selectBoardFrame = Frame(canvasSettings, width=250, height=200, padx=25, pady=25)
+	# selectBoardFrame.grid(row=1, column=0, sticky=W)
 
-# for board in board.parents:
-# 	root.after(1000, draw(board))
+	# #MODES: text, mode
+	# MODES = [("6x6 board 1", "1"),
+	# 		("6x6 board 2", "2"),
+	# 		("6x6 board 3", "3"),
+	# 		("9x9 board 1", "4"),
+	# 		("9x9 board 2", "5"),
+	# 		("9x9 board 3", "6"),
+	# 		("12x12 board", "7")]
+
+	# v = IntVar()
+	# v.set(1) # initializing the choice
+
+	# for text, mode in MODES:
+	# 	boardOption = Radiobutton(selectBoardFrame, text=text, variable=v, value=mode, command=printout)
+	# 	boardOption.grid(row=mode, column=0, sticky=W)
+
+
+def updateSteps(self, steps):
+	stepsLabel = Label(self, text='Steps:').grid(row=0, column=0, sticky=W)
+	stepsValue = Label(self, text=steps).grid(row=0, column=1, sticky=W)
+
+def updateConfigurations(self, configurations):
+	configurationsLabel = Label(self, text='Configurations:').grid(row=1, column=0, sticky=W)
+	configurationsValue = Label(self, text=configurations).grid(row=1, column=1, sticky=W)
+
+def updateCurrentStep(self, step):
+	currentStepLabel = Label(self, text='Current Step:').grid(row=2, column=0, sticky=W)
+	currentStepValue = Label(self, text=step).grid(row=2, column=1, sticky=W)
+
+def noMoreSteps(self):
+	noMoreStepsLabel = Label(self, text="No more steps!").grid(row=3, column=0, sticky=W, padx=25)
+
+def nextBoard():
+	global parentsAmount
+	global boardIndex
+	global currentStep
+	if parentsAmount != 0:
+		drawBoard(board.parents[boardIndex], canvasBoard)
+		boardIndex += 1
+		parentsAmount -= 1
+		currentStep += 1
+		drawSettings(canvasSettings, len(board.parents), len(board.boardSet), currentStep)
+	else:
+		noMoreSteps(canvasSettings)
+
+
+def printout():
+	print "Hello, World!"
+
+#drawBoard(board.initialBoard, canvasBoard)
+drawSettings(canvasSettings, len(board.parents), len(board.boardSet), currentStep)
 
 root.mainloop()
-

@@ -15,10 +15,10 @@ import Queue
 
 
 # Define board dimensions
-Y = 9
-X = 9
-xWin = 8
-yWin = 4
+Y = 6
+X = 6
+xWin = 5
+yWin = 2
 isFinished = False
 
 class Car(object):
@@ -188,10 +188,10 @@ class Board(object):
 	def checkWin(self):
 		# Check if game is won
 		if self.board[yWin][xWin] != ' ':
-			if self.board[yWin][xWin].name == '00':
+			if self.board[yWin][xWin].name == 0:
 				global isFinished
 				isFinished = True 
-				print "WIN!"
+				#print "WIN!"
 				return True
 
 	def printBoard(self):
@@ -203,7 +203,7 @@ class Board(object):
 					string += str(self.board[i][j].name)
 					string += ' '
 				else:
-					string += 'XX'
+					string += 'X'
 					string += ' '
 			string += '\n'
 		print string
@@ -227,7 +227,6 @@ board = Board(Y, X)
 
 
 # # Board 2
-
 # board.addCar(0, 2, 'h', 2, 2)
 # board.addCar(1, 2, 'h', 0, 2)
 # board.addCar(2, 2, 'h', 0, 4)
@@ -248,15 +247,30 @@ board = Board(Y, X)
 # board.addCar(1, 2, 'h', 0, 1)
 # board.addCar(2, 3, 'h', 0, 3)
 # board.addCar(3, 2, 'h', 1, 1)
-# board.addCar(4, 2, 'v', 1, 3)
-# board.addCar(5, 2, 'h', 1, 4)
-# board.addCar(6, 2, 'v', 2, 2)
-# board.addCar(7, 2, 'v', 2, 5)
-# board.addCar(8, 2, 'h', 3, 0)
-# board.addCar(9, 2, 'h', 3, 3)
-# board.addCar(10, 2, 'v', 4, 0)
-# board.addCar(11, 2, 'v', 4, 2)
-# board.addCar(12, 2, 'h', 4, 4)
+# board.addCar(4, 2, 'h', 1, 3)
+# board.addCar(5, 2, 'v', 2, 4)
+# board.addCar(6, 3, 'v', 1, 5)
+# board.addCar(7, 2, 'h', 3, 0)
+# board.addCar(8, 2, 'h', 3, 2)
+# board.addCar(9, 2, 'v', 4, 0)
+# board.addCar(10, 2, 'v', 4, 3)
+# board.addCar(11, 2, 'h', 4, 4)
+# board.addCar(12, 2, 'h', 5, 4)
+
+# Board 3
+board.addCar(0, 2, 'h', 2, 0)
+board.addCar(1, 2, 'h', 0, 1)
+board.addCar(2, 3, 'h', 0, 3)
+board.addCar(3, 2, 'h', 1, 1)
+board.addCar(4, 2, 'v', 1, 3)
+board.addCar(5, 2, 'h', 1, 4)
+board.addCar(6, 2, 'v', 2, 2)
+board.addCar(7, 2, 'v', 2, 5)
+board.addCar(8, 2, 'h', 3, 0)
+board.addCar(9, 2, 'h', 3, 3)
+board.addCar(10, 2, 'v', 4, 0)
+board.addCar(11, 2, 'v', 4, 2)
+board.addCar(12, 2, 'h', 4, 4)
 
 # # Board 4
 # board.addCar('00', 2, 'h', 4, 1)#redcar
@@ -309,36 +323,36 @@ board = Board(Y, X)
 # board.addCar('22', 3, 'h', 7, 5)
 # board.addCar('23', 2, 'v', 7, 8)
 
-#board6
-board.addCar('00', 2, 'h', 4, 0)#redcar
-board.addCar('01', 2, 'h', 0, 0)
-board.addCar('02', 2, 'h', 0, 2)
-board.addCar('03', 2, 'v', 0, 4)
-board.addCar('04', 2, 'v', 0, 7)
+# #board6
+# board.addCar('00', 2, 'h', 4, 0)#redcar
+# board.addCar('01', 2, 'h', 0, 0)
+# board.addCar('02', 2, 'h', 0, 2)
+# board.addCar('03', 2, 'v', 0, 4)
+# board.addCar('04', 2, 'v', 0, 7)
 
-board.addCar('05', 2, 'v', 1, 0)
+# board.addCar('05', 2, 'v', 1, 0)
 
-board.addCar('06', 3, 'h', 1, 1)
-board.addCar('07', 2, 'h', 1, 5)
-board.addCar('08', 2, 'h', 2, 2)
-board.addCar('09', 2, 'v', 2, 4)
-board.addCar('10', 2, 'v', 2, 5)#lichtblauwe auto
+# board.addCar('06', 3, 'h', 1, 1)
+# board.addCar('07', 2, 'h', 1, 5)
+# board.addCar('08', 2, 'h', 2, 2)
+# board.addCar('09', 2, 'v', 2, 4)
+# board.addCar('10', 2, 'v', 2, 5)#lichtblauwe auto
 
-board.addCar('11', 2, 'h', 2, 7)
-board.addCar('12', 2, 'v', 3, 2)
-board.addCar('13', 3, 'v', 3, 3)
-board.addCar('14', 3, 'h', 3, 6)
-board.addCar('15', 2, 'v', 5, 1)
-board.addCar('16', 2, 'h', 5, 4)
-board.addCar('17', 2, 'h', 5, 6)
-board.addCar('18', 3, 'v', 5, 8)
-board.addCar('19', 3, 'v', 6, 0)
-board.addCar('20', 2, 'h', 6, 2)
-board.addCar('21', 3, 'v', 6, 4)
-board.addCar('22', 3, 'h', 6, 5)
-board.addCar('23', 2, 'h', 7, 2)
-board.addCar('24', 2, 'h', 7, 5)
-board.addCar('25', 3, 'h', 8, 1)
+# board.addCar('11', 2, 'h', 2, 7)
+# board.addCar('12', 2, 'v', 3, 2)
+# board.addCar('13', 3, 'v', 3, 3)
+# board.addCar('14', 3, 'h', 3, 6)
+# board.addCar('15', 2, 'v', 5, 1)
+# board.addCar('16', 2, 'h', 5, 4)
+# board.addCar('17', 2, 'h', 5, 6)
+# board.addCar('18', 3, 'v', 5, 8)
+# board.addCar('19', 3, 'v', 6, 0)
+# board.addCar('20', 2, 'h', 6, 2)
+# board.addCar('21', 3, 'v', 6, 4)
+# board.addCar('22', 3, 'h', 6, 5)
+# board.addCar('23', 2, 'h', 7, 2)
+# board.addCar('24', 2, 'h', 7, 5)
+# board.addCar('25', 3, 'h', 8, 1)
 
 # #board7
 # board.addCar('00', 2, 'h', 5, 2)#redcar
@@ -395,7 +409,6 @@ boardSet.add(board)
 
 
 board.printBoard()
-#steps = 0
 parents = []
 
 
@@ -418,8 +431,7 @@ while True:
 			#parentBoard.printBoard()
 			#interface.draw(parentBoard)
 			parents.insert(0, parentBoard)
-			parentBoard = parentBoard.parent
-			
+			parentBoard = parentBoard.parent			
 			#interface.draw(board)
 		break
 
@@ -427,8 +439,8 @@ while True:
 for board in parents:
 	board.printBoard()
 
-print len(parents)
-
+print "Moves:", len(parents)
+print "Set Length:", len(boardSet)
 
 
 # Board representation
