@@ -316,7 +316,7 @@ board.addCar('02', 2, 'h', 0, 2)
 board.addCar('03', 2, 'v', 0, 4)
 board.addCar('04', 2, 'v', 0, 7)
 
-board.addCar('05', 2, 'v', 1, 1)
+board.addCar('05', 2, 'v', 1, 0)
 
 board.addCar('06', 3, 'h', 1, 1)
 board.addCar('07', 2, 'h', 1, 5)
