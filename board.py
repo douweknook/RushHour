@@ -211,17 +211,20 @@ class Board(object):
 
 board = Board(Y, X)
 
-# Board 1
-board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
-board.addCar(1, 2, 'h', 0, 3)
-board.addCar(2, 3, 'v', 0, 2)
-board.addCar(3, 3, 'v', 0, 5)
-board.addCar(4, 2, 'v', 4, 0)
-board.addCar(5, 2, 'h', 4, 1)
-board.addCar(6, 3, 'v', 3, 3)
-board.addCar(7, 2, 'h', 3, 4)
-board.addCar(8, 2, 'h', 5, 4)
-
+# Board 2
+board.addCar(0, 2, 'h', 2, 2)
+board.addCar(1, 2, 'h', 0, 2)
+board.addCar(2, 2, 'h', 0, 4)
+board.addCar(3, 2, 'h', 1, 1)
+board.addCar(4, 2, 'h', 1, 3)
+board.addCar(5, 2, 'v', 2, 4)
+board.addCar(6, 3, 'v', 1, 5)
+board.addCar(7, 2, 'h', 3, 0)
+board.addCar(8, 2, 'h', 3, 2)
+board.addCar(9, 2, 'v', 4, 0)
+board.addCar(10, 2, 'v', 4, 3)
+board.addCar(11, 2, 'h', 4, 4)
+board.addCar(12, 2, 'h', 5, 4)
 board.board = tuple([tuple(l) for l in board.board])
 
 q = Queue.Queue()

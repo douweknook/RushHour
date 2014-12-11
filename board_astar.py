@@ -15,10 +15,10 @@ import Queue
 
 
 # Define board dimensions
-Y = 9
-X = 9
-xWin = 8
-yWin = 4
+Y = 6
+X = 6
+xWin = X-1
+yWin = (Y-1)/2
 isFinished = False
 
 class Car(object):
@@ -212,41 +212,36 @@ class Board(object):
 		print string
 
 	def valueBoard(self):
-		value = 0
+		value1 = 0
+		value2 = 0
 		for i in range(X-1, -1, -1):
 			if self.board[yWin][i] != ' ':
 				if self.board[yWin][i].name == 0:
 					break
 				else:
-					value += 1
-		self.value = value
+					value1 += 1
+			# if self.board[0][xWin] != ' ':
+			# 	if self.board[0][xWin].direction=='v' and self.board[0][xWin].length == 3:
+			# 		value2 += 1
+
+		self.value = value1+value2
 
 board = Board(Y, X)
 
-
-# Board 4
-board.addCar('00', 2, 'h', 4, 1)#redcar
-board.addCar('01', 2, 'v', 0, 0)
-board.addCar('02', 3, 'h', 0, 1)
-board.addCar('03', 3, 'v', 0, 5)
-board.addCar('04', 3, 'h', 1, 6)
-board.addCar('05', 3, 'v', 1, 3)
-board.addCar('06', 3, 'v', 2, 8)
-board.addCar('07', 2, 'h', 3, 0)
-board.addCar('08', 3, 'h', 3, 5)
-board.addCar('09', 2, 'v', 4, 0)
-board.addCar('10', 2, 'v', 4, 3)
-board.addCar('11', 3, 'v', 5, 2)
-board.addCar('12', 3, 'h', 5, 5)
-board.addCar('13', 3, 'v', 5, 8)
-board.addCar('14', 2, 'h', 6, 0)
-board.addCar('15', 2, 'v', 6, 3)
-board.addCar('16', 2, 'h', 6, 4)
-board.addCar('17', 2, 'v', 7, 0)
-board.addCar('18', 2, 'v', 7, 4)
-board.addCar('19', 3, 'h', 8, 1)
-board.addCar('20', 2, 'h', 8, 5)
-board.addCar('21', 2, 'h', 8, 7)
+# Board 2
+board.addCar(0, 2, 'h', 2, 2)
+board.addCar(1, 2, 'h', 0, 2)
+board.addCar(2, 2, 'h', 0, 4)
+board.addCar(3, 2, 'h', 1, 1)
+board.addCar(4, 2, 'h', 1, 3)
+board.addCar(5, 2, 'v', 2, 4)
+board.addCar(6, 3, 'v', 1, 5)
+board.addCar(7, 2, 'h', 3, 0)
+board.addCar(8, 2, 'h', 3, 2)
+board.addCar(9, 2, 'v', 4, 0)
+board.addCar(10, 2, 'v', 4, 3)
+board.addCar(11, 2, 'h', 4, 4)
+board.addCar(12, 2, 'h', 5, 4)
 
 board.board = tuple([tuple(l) for l in board.board])
 
