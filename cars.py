@@ -165,3 +165,15 @@ board.addCar(41, 2, 'h', 11, 1)
 board.addCar(42, 3, 'h', 11, 3)
 board.addCar(43, 2, 'h', 11, 7)
 
+#Test Board 1
+board.addCar(0, 2, 'h', 2, 1)
+board.addCar(1, 3, 'v', 0, 0)
+board.addCar(2, 2, 'h', 0, 1)
+board.addCar(4, 2, 'v', 0, 3)
+board.addCar(5, 2, 'v', 2, 3)
+board.addCar(6, 2, 'h', 1, 4)
+board.addCar(7, 3, 'v', 3, 2)
+board.addCar(8, 2, 'h', 4, 3)
+board.addCar(9, 2, 'h', 3, 4)
+board.addCar(10, 2, 'v', 4, 5)
+

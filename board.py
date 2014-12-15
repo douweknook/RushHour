@@ -17,8 +17,8 @@ import Queue
 # Define board dimensions
 Y = 6
 X = 6
-xWin = 5
-yWin = 2
+xWin = X-1
+yWin = (Y-1)/2
 isFinished = False
 
 class Car(object):
@@ -225,6 +225,7 @@ board.addCar(9, 2, 'v', 4, 0)
 board.addCar(10, 2, 'v', 4, 3)
 board.addCar(11, 2, 'h', 4, 4)
 board.addCar(12, 2, 'h', 5, 4)
+
 board.board = tuple([tuple(l) for l in board.board])
 
 q = Queue.Queue()
@@ -236,7 +237,7 @@ board.printBoard()
 parents = []
 
 
-while True:
+while True :
 	initialBoard = q.get()
 	initialBoard.checkBoard()
 	if isFinished:

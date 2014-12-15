@@ -1,5 +1,8 @@
-WIN!
-Win!
+9
+22
+
+5046.9s
+
 01 01 01 02 XX 03 04 XX XX 
 XX XX XX 02 XX 03 04 05 05 
 XX XX XX 02 06 06 07 XX XX 
@@ -219,7 +222,3 @@ XX XX XX 02 XX 03 05 05 12
 15 15 14 XX 21 11 07 16 16 
 19 19 22 22 22 11 XX XX 23 
 20 20 XX XX XX XX XX XX 23 
-
-22
-[Finished in 5046.9s]
-was het niet board 5?

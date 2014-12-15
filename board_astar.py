@@ -11,9 +11,6 @@
 import copy
 import Queue
 
-#import interface
-
-
 # Define board dimensions
 Y = 6
 X = 6
@@ -84,7 +81,6 @@ class Board(object):
 
 	def moveCarVertical(self, direction, length, y1, y2, x, parent):
 		# Create copy of board with vertical move made
-		#print x
 		tuple3 = []
 		tuple4 = []
 		L = range(Y)
@@ -97,8 +93,6 @@ class Board(object):
 				tuple4.append(self.board[y2][i])
 		tuple3 = tuple(tuple3)
 		tuple4 = tuple(tuple4)
-
-
 		boardCopy = copy.copy(self)
 		boardCopy.parent = parent
 		boardCopy.board = []
@@ -194,7 +188,6 @@ class Board(object):
 				global isFinished
 				isFinished = True
 				parents.append(self)
-				#print "WIN!"
 				return True
 
 	def printBoard(self):
@@ -220,28 +213,23 @@ class Board(object):
 					break
 				else:
 					value1 += 1
-			# if self.board[0][xWin] != ' ':
-			# 	if self.board[0][xWin].direction=='v' and self.board[0][xWin].length == 3:
-			# 		value2 += 1
-
+		# if self.board[0][xWin] != ' ':
+		# 	if self.board[0][xWin].direction=='v' and self.board[0][xWin].length == 3:
+		# 		value2 += 1
 		self.value = value1+value2
 
 board = Board(Y, X)
 
-# Board 2
-board.addCar(0, 2, 'h', 2, 2)
-board.addCar(1, 2, 'h', 0, 2)
-board.addCar(2, 2, 'h', 0, 4)
-board.addCar(3, 2, 'h', 1, 1)
-board.addCar(4, 2, 'h', 1, 3)
-board.addCar(5, 2, 'v', 2, 4)
-board.addCar(6, 3, 'v', 1, 5)
-board.addCar(7, 2, 'h', 3, 0)
-board.addCar(8, 2, 'h', 3, 2)
-board.addCar(9, 2, 'v', 4, 0)
-board.addCar(10, 2, 'v', 4, 3)
-board.addCar(11, 2, 'h', 4, 4)
-board.addCar(12, 2, 'h', 5, 4)
+# Board 1
+board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
+board.addCar(1, 2, 'h', 0, 3)
+board.addCar(2, 3, 'v', 0, 2)
+board.addCar(3, 3, 'v', 0, 5)
+board.addCar(4, 2, 'v', 4, 0)
+board.addCar(5, 2, 'h', 4, 1)
+board.addCar(6, 3, 'v', 3, 3)
+board.addCar(7, 2, 'h', 3, 4)
+board.addCar(8, 2, 'h', 5, 4)
 
 board.board = tuple([tuple(l) for l in board.board])
 
@@ -258,7 +246,6 @@ while True:
 	initialBoard = q.get()
 	initialBoard[1].checkBoard()
 	if isFinished:
-		print "Win!"
 		parentBoard = initialBoard[1]
 		while parentBoard != None:
 			parents.append(parentBoard)
