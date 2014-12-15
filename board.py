@@ -8,8 +8,11 @@
 #
 # oktober 2014
 
+
+
 import copy
 import Queue
+
 
 #import interface
 
@@ -17,8 +20,10 @@ import Queue
 # Define board dimensions
 Y = 6
 X = 6
+
 xWin = X-1
 yWin = (Y-1)/2
+
 isFinished = False
 
 class Car(object):
@@ -233,7 +238,6 @@ q.put(board)
 boardSet = set([])
 boardSet.add(board)
 
-board.printBoard()
 parents = []
 
 
@@ -241,7 +245,6 @@ while True :
 	initialBoard = q.get()
 	initialBoard.checkBoard()
 	if isFinished:
-		print "Win!"
 		parentBoard = initialBoard
 		while parentBoard != None:
 			parents.append(parentBoard)

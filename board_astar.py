@@ -12,8 +12,8 @@ import copy
 import Queue
 
 # Define board dimensions
-Y = 6
-X = 6
+Y = 9
+X = 9
 xWin = X-1
 yWin = (Y-1)/2
 isFinished = False
@@ -220,16 +220,33 @@ class Board(object):
 
 board = Board(Y, X)
 
-# Board 1
-board.addCar(0, 2, 'h', 2, 3) #Car 0 is the red car
-board.addCar(1, 2, 'h', 0, 3)
-board.addCar(2, 3, 'v', 0, 2)
-board.addCar(3, 3, 'v', 0, 5)
-board.addCar(4, 2, 'v', 4, 0)
-board.addCar(5, 2, 'h', 4, 1)
-board.addCar(6, 3, 'v', 3, 3)
-board.addCar(7, 2, 'h', 3, 4)
-board.addCar(8, 2, 'h', 5, 4)
+#board6
+board.addCar(0, 2, 'h', 4, 0)#redcar
+board.addCar(1, 2, 'h', 0, 0)
+board.addCar(2, 2, 'h', 0, 2)
+board.addCar(3, 2, 'v', 0, 4)
+board.addCar(4, 2, 'v', 0, 7)
+board.addCar(5, 2, 'v', 1, 0)
+board.addCar(6, 3, 'h', 1, 1)
+board.addCar(7, 2, 'h', 1, 5)
+board.addCar(8, 2, 'h', 2, 2)
+board.addCar(9, 2, 'v', 2, 4)
+board.addCar(10, 2, 'v', 2, 5)#lichtblauwe auto
+board.addCar(11, 2, 'h', 2, 7)
+board.addCar(12, 2, 'v', 3, 2)
+board.addCar(13, 3, 'v', 3, 3)
+board.addCar(14, 3, 'h', 3, 6)
+board.addCar(15, 2, 'v', 5, 1)
+board.addCar(16, 2, 'h', 5, 4)
+board.addCar(17, 2, 'h', 5, 6)
+board.addCar(18, 3, 'v', 5, 8)
+board.addCar(19, 3, 'v', 6, 0)
+board.addCar(20, 2, 'h', 6, 2)
+board.addCar(21, 3, 'v', 6, 4)
+board.addCar(22, 3, 'h', 6, 5)
+board.addCar(23, 2, 'h', 7, 2)
+board.addCar(24, 2, 'h', 7, 5)
+board.addCar(25, 3, 'h', 8, 1)
 
 board.board = tuple([tuple(l) for l in board.board])
 
@@ -238,7 +255,7 @@ q.put((0, board))
 boardSet = set([])
 boardSet.add(board)
 
-board.printBoard()
+
 parents = []
 
 
