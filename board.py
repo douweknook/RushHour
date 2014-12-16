@@ -13,10 +13,6 @@
 import copy
 import Queue
 
-
-#import interface
-
-
 # Define board dimensions
 Y = 9
 X = 9
@@ -88,7 +84,6 @@ class Board(object):
 
 	def moveCarVertical(self, direction, length, y1, y2, x, parent):
 		# Create copy of board with vertical move made
-		#print x
 		tuple3 = []
 		tuple4 = []
 		L = range(Y)
@@ -101,8 +96,6 @@ class Board(object):
 				tuple4.append(self.board[y2][i])
 		tuple3 = tuple(tuple3)
 		tuple4 = tuple(tuple4)
-
-
 		boardCopy = copy.copy(self)
 		boardCopy.parent = parent
 		boardCopy.board = []
@@ -115,7 +108,6 @@ class Board(object):
 				boardCopy.board.append(self.board[i])
 		boardCopy.board = tuple(boardCopy.board)
 		return boardCopy
-
 
 	def checkBoard(self):
 		# check board for cars
@@ -197,7 +189,6 @@ class Board(object):
 				global isFinished
 				isFinished = True
 				parents.append(self)
-				#print "WIN!"
 				return True
 
 	def printBoard(self):
@@ -253,7 +244,6 @@ boardSet.add(board)
 
 parents = []
 
-
 while True :
 	initialBoard = q.get()
 	initialBoard.checkBoard()
@@ -263,7 +253,6 @@ while True :
 			parents.append(parentBoard)
 			parentBoard = parentBoard.parent
 		break
-
 
 for board in reversed(parents):
 	board.printBoard()

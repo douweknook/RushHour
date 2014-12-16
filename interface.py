@@ -8,7 +8,7 @@
 # oktober 2014
 
 from Tkinter import *
-solution = 'Solutions/board1solution.txt'
+solution = 'Solutions/board1solutionAstar.txt'
 
 def readBoardSize(self):
 	file = open(self, 'r')
@@ -47,9 +47,9 @@ def readSolution(self, boardSize):
 			if row:
 				board.append(row)
 
-	for i in range(0, len(board)/6, 6):
+	for i in range(0, len(board)/boardSize, boardSize):
 		newboard = []
-		for j in range(i, i+6):
+		for j in range(i, i+boardSize):
 			newboard.append(board[j])
 		boardsList.append(newboard)
 	return boardsList
@@ -59,16 +59,17 @@ def drawBoard(self, boardSize, canvasBoard):
 	colors = ['red', 'yellow', 'light blue', 'pink', 'goldenrod', 'pale green', 'green', 
 				'medium sea green', 'dark orange', 'blue', 'indian red', 'olive drab', 'sandy brown', 'salmon', 
 				'dark turquoise', 'rosy brown', 'maroon', 'cyan', 'deep sky blue', 'aquamarine', 'navy', 'lime green', 
-				'misty rose']
+				'gold', 'cyan', 'firebrick', 'sienna', 'purple', 'lime green', 'sea green', 'violet red',
+				'deep pink', 'dark slate blue', 'forest green', 'orchid', 'chartreuse', 'chocolate', 'spring green', 
+				'orange red', 'lawn green', 'maroon', 'darkorange', 'yellow2']
 	for i in range(boardSize):
 		for j in range(boardSize):
 			if self[j][i] == 'X':
-				boardSpace = Canvas(canvasBoard, width=80, height=80, bg="grey90")
+				boardSpace = Canvas(canvasBoard, width=70, height=70, bg="grey90")
 				boardSpace.create_text(40, 40)
 				boardSpace.grid(row=j, column=i, sticky=W+E+N+S)
-
 			else:
-				boardSpace = Canvas(canvasBoard, width=80, height=80, bg=colors[int(self[j][i])])
+				boardSpace = Canvas(canvasBoard, width=70, height=70, bg=colors[int(self[j][i])])
 				boardSpace.create_text(40, 40, text=self[j][i])
 				boardSpace.grid(row=j, column=i, sticky=W+E+N+S)
 
@@ -80,8 +81,8 @@ def drawSettings(self, steps, configurations, runtime, currentStep):
 	updateConfigurations(returnValuesFrame, configurations)
 	updateRuntime(returnValuesFrame, runtime)
 	updateCurrentStep(returnValuesFrame, currentStep)
-	previousBoardButton = Button(returnValuesFrame, text='Show Previous Step', command=previousBoard).grid(row=4, column=0, pady=25)
-	nextBoardButton = Button(returnValuesFrame, text='Show Next Step', command=nextBoard).grid(row=4, column=1, pady=25)
+	previousBoardButton = Button(returnValuesFrame, text='Show Previous Step', command=previousBoard).grid(row=5, column=0, pady=25)
+	nextBoardButton = Button(returnValuesFrame, text='Show Next Step', command=nextBoard).grid(row=5, column=1, pady=25)
 
 
 def updateSteps(self, steps):

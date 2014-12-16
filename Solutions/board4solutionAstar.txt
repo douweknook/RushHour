@@ -1,6 +1,7 @@
-Moves: 30
-Set Length: 46710
-[Finished in 6.3s]
+9
+30
+46710
+6.3s
 
 1 2 2 2 X 3 X X X 
 1 X X 5 X 3 4 4 4 
