@@ -12,21 +12,23 @@ import copy
 import Queue
 
 # Define board dimensions
-Y = 9
-X = 9
+Y = 6
+X = 6
+
+# Define winning conditions
 xWin = X-1
 yWin = (Y-1)/2
 isFinished = False
 
 class Car(object):
-	"""Class that contains a car object"""
+	"""Class that contains a car object which contains parameters name, length and direction"""
 	def __init__(self, name, length, direction):
 		self.name = name
 		self.length = length
 		self.direction = direction
 
 class Board(object):
-	"""Class that contains a board object"""
+	"""Class that contains a board object which contains parameters X, Y, parent and board"""
 	def __init__(self, y, x):
 		self.y = Y
 		self.x = X
@@ -53,59 +55,6 @@ class Board(object):
 		if direction is 'v':
 			for l in range(length):
 				self.board[y + l][x] = car
-	
-
-	def moveCarHorizontal(self, direction, length, y, x, parent):
-		# Create copy of board with horizontal move made
-		tuple2 = []
-		L = range(X)
-		if direction == 'left':
-			L[x+length] = x
-			L[x] = x+length
-		else:
-			L[x-length] = x
-			L[x] = x-length
-		for i in L:
-			tuple2.append(self.board[y][i])
-		tuple2 = tuple(tuple2)
-		boardCopy = copy.copy(self)
-		boardCopy.parent = parent
-		boardCopy.board = []
-		for i in range(X):
-			if i != y:
-				boardCopy.board.append(self.board[i])
-			else:
-				boardCopy.board.append(tuple2)
-		boardCopy.board = tuple(boardCopy.board)
-		return boardCopy
-
-	def moveCarVertical(self, direction, length, y1, y2, x, parent):
-		# Create copy of board with vertical move made
-		tuple3 = []
-		tuple4 = []
-		L = range(Y)
-		for i in L:
-			if i == x:
-				tuple3.append(self.board[y2][i])
-				tuple4.append(' ')
-			else:
-				tuple3.append(self.board[y1][i])
-				tuple4.append(self.board[y2][i])
-		tuple3 = tuple(tuple3)
-		tuple4 = tuple(tuple4)
-		boardCopy = copy.copy(self)
-		boardCopy.parent = parent
-		boardCopy.board = []
-		for i in range(Y):
-			if i == y1:
-				boardCopy.board.append(tuple3)
-			elif i == y2:
-				boardCopy.board.append(tuple4)
-			else:
-				boardCopy.board.append(self.board[i])
-		boardCopy.board = tuple(boardCopy.board)
-		return boardCopy
-
 
 	def checkBoard(self):
 		# check board for cars
@@ -170,6 +119,57 @@ class Board(object):
 			else:
 				break
 
+	def moveCarHorizontal(self, direction, length, y, x, parent):
+		# Create copy of board with horizontal move made
+		tuple2 = []
+		L = range(X)
+		if direction == 'left':
+			L[x+length] = x
+			L[x] = x+length
+		else:
+			L[x-length] = x
+			L[x] = x-length
+		for i in L:
+			tuple2.append(self.board[y][i])
+		tuple2 = tuple(tuple2)
+		boardCopy = copy.copy(self)
+		boardCopy.parent = parent
+		boardCopy.board = []
+		for i in range(X):
+			if i != y:
+				boardCopy.board.append(self.board[i])
+			else:
+				boardCopy.board.append(tuple2)
+		boardCopy.board = tuple(boardCopy.board)
+		return boardCopy
+
+	def moveCarVertical(self, direction, length, y1, y2, x, parent):
+		# Create copy of board with vertical move made
+		tuple3 = []
+		tuple4 = []
+		L = range(Y)
+		for i in L:
+			if i == x:
+				tuple3.append(self.board[y2][i])
+				tuple4.append(' ')
+			else:
+				tuple3.append(self.board[y1][i])
+				tuple4.append(self.board[y2][i])
+		tuple3 = tuple(tuple3)
+		tuple4 = tuple(tuple4)
+		boardCopy = copy.copy(self)
+		boardCopy.parent = parent
+		boardCopy.board = []
+		for i in range(Y):
+			if i == y1:
+				boardCopy.board.append(tuple3)
+			elif i == y2:
+				boardCopy.board.append(tuple4)
+			else:
+				boardCopy.board.append(self.board[i])
+		boardCopy.board = tuple(boardCopy.board)
+		return boardCopy
+
 
 	def addToQueue(self):
 		# add copy of board to Queue, if unique copy
@@ -207,46 +207,48 @@ class Board(object):
 	def valueBoard(self):
 		value1 = 0
 		value2 = 0
+		value3 = 0
+		# Add 1 to score for every parent (previous step) of current board
+		parents = []
+		parentBoard = self.parent
+		while parentBoard != None:
+			parents.append(parentBoard)
+			parentBoard = parentBoard.parent
+		value2 = len(parents)
+
+		# Add 1 to score for every car blocking the red car
 		for i in range(X-1, -1, -1):
 			if self.board[yWin][i] != ' ':
 				if self.board[yWin][i].name == 0:
 					break
 				else:
 					value1 += 1
-		# if self.board[0][xWin] != ' ':
-		# 	if self.board[0][xWin].direction=='v' and self.board[0][xWin].length == 3:
-		# 		value2 += 1
-		self.value = value1+value2
+					# If the spot above/below blocked spot is not empty +1 to score
+					if self.board[yWin+1][i] != ' ' or self.board[yWin-1][i] != ' ':
+						value3 += 1
+		# Add 1 to score for every car blocking as car blocking the red car?
+
+
+		self.value = value1+value2+value3
+
+
 
 board = Board(Y, X)
 
-#board6
-board.addCar(0, 2, 'h', 4, 0)#redcar
-board.addCar(1, 2, 'h', 0, 0)
-board.addCar(2, 2, 'h', 0, 2)
-board.addCar(3, 2, 'v', 0, 4)
-board.addCar(4, 2, 'v', 0, 7)
-board.addCar(5, 2, 'v', 1, 0)
-board.addCar(6, 3, 'h', 1, 1)
-board.addCar(7, 2, 'h', 1, 5)
-board.addCar(8, 2, 'h', 2, 2)
-board.addCar(9, 2, 'v', 2, 4)
-board.addCar(10, 2, 'v', 2, 5)#lichtblauwe auto
-board.addCar(11, 2, 'h', 2, 7)
-board.addCar(12, 2, 'v', 3, 2)
-board.addCar(13, 3, 'v', 3, 3)
-board.addCar(14, 3, 'h', 3, 6)
-board.addCar(15, 2, 'v', 5, 1)
-board.addCar(16, 2, 'h', 5, 4)
-board.addCar(17, 2, 'h', 5, 6)
-board.addCar(18, 3, 'v', 5, 8)
-board.addCar(19, 3, 'v', 6, 0)
-board.addCar(20, 2, 'h', 6, 2)
-board.addCar(21, 3, 'v', 6, 4)
-board.addCar(22, 3, 'h', 6, 5)
-board.addCar(23, 2, 'h', 7, 2)
-board.addCar(24, 2, 'h', 7, 5)
-board.addCar(25, 3, 'h', 8, 1)
+# Board 3
+board.addCar(0, 2, 'h', 2, 0)
+board.addCar(1, 2, 'h', 0, 1)
+board.addCar(2, 3, 'h', 0, 3)
+board.addCar(3, 2, 'h', 1, 1)
+board.addCar(4, 2, 'v', 1, 3)
+board.addCar(5, 2, 'h', 1, 4)
+board.addCar(6, 2, 'v', 2, 2)
+board.addCar(7, 2, 'v', 2, 5)
+board.addCar(8, 2, 'h', 3, 0)
+board.addCar(9, 2, 'h', 3, 3)
+board.addCar(10, 2, 'v', 4, 0)
+board.addCar(11, 2, 'v', 4, 2)
+board.addCar(12, 2, 'h', 4, 4)
 
 board.board = tuple([tuple(l) for l in board.board])
 
@@ -257,7 +259,6 @@ boardSet.add(board)
 
 
 parents = []
-
 
 while True:
 	initialBoard = q.get()

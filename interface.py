@@ -8,7 +8,7 @@
 # oktober 2014
 
 from Tkinter import *
-solution = 'Solutions/board1solutionAstar.txt'
+solution = 'Solutions/Extra/Board3newAstarsolution.txt'
 
 def readBoardSize(self):
 	file = open(self, 'r')
