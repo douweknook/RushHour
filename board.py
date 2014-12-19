@@ -205,20 +205,30 @@ class Board(object):
 
 board = Board(Y, X)
 
-# Board 3
-board.addCar(0, 2, 'h', 2, 0)
-board.addCar(1, 2, 'h', 0, 1)
-board.addCar(2, 3, 'h', 0, 3)
-board.addCar(3, 2, 'h', 1, 1)
-board.addCar(4, 2, 'v', 1, 3)
-board.addCar(5, 2, 'h', 1, 4)
-board.addCar(6, 2, 'v', 2, 2)
-board.addCar(7, 2, 'v', 2, 5)
-board.addCar(8, 2, 'h', 3, 0)
-board.addCar(9, 2, 'h', 3, 3)
-board.addCar(10, 2, 'v', 4, 0)
-board.addCar(11, 2, 'v', 4, 2)
-board.addCar(12, 2, 'h', 4, 4)
+# Board 4
+board.addCar(0, 2, 'h', 4, 1)#redcar
+board.addCar(1, 2, 'v', 0, 0)
+board.addCar(2, 3, 'h', 0, 1)
+board.addCar(3, 3, 'v', 0, 5)
+board.addCar(4, 3, 'h', 1, 6)
+board.addCar(5, 3, 'v', 1, 3)
+board.addCar(6, 3, 'v', 2, 8)
+board.addCar(7, 2, 'h', 3, 0)
+board.addCar(8, 3, 'h', 3, 5)
+board.addCar(9, 2, 'v', 4, 0)
+board.addCar(10, 2, 'v', 4, 3)
+board.addCar(11, 3, 'v', 5, 2)
+board.addCar(12, 3, 'h', 5, 5)
+board.addCar(13, 3, 'v', 5, 8)
+board.addCar(14, 2, 'h', 6, 0)
+board.addCar(15, 2, 'v', 6, 3)
+board.addCar(16, 2, 'h', 6, 4)
+board.addCar(17, 2, 'v', 7, 0)
+board.addCar(18, 2, 'v', 7, 4)
+board.addCar(19, 3, 'h', 8, 1)
+board.addCar(20, 2, 'h', 8, 5)
+board.addCar(21, 2, 'h', 8, 7)
+
 
 board.board = tuple([tuple(l) for l in board.board])
 
